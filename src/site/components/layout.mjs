@@ -74,7 +74,6 @@ function header() {
     .join("\n      ");
   return `<header class="site-header">
   <a class="logo" href="/" aria-label="${site.name} ana sayfa">
-      <span class="logo-mark" aria-hidden="true"></span>
       <span class="logo-word">${escapeHtml(site.name)}</span>
     </a>
   <div class="nav-end">
