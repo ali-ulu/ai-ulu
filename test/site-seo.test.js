@@ -16,6 +16,14 @@ test("every page carries freshness signals", () => {
   }
 });
 
+test("the home page links to the works page as its proof section", () => {
+  const home = pages.find((p) => p.path === "/");
+  const body = renderPage(home).split('<main id="main">')[1].split("</main>")[0];
+  // The agency has no client references yet; the works page carries that job, so
+  // the home page must route visitors to it rather than leave it nav-only.
+  assert.match(body, /<a href="\/calismalar\/">/, "home links to the works page in the body");
+});
+
 test("home page has at least 3 contextual links in the body", () => {
   const home = pages.find((p) => p.path === "/");
   const body = renderPage(home).split('<main id="main">')[1].split("</main>")[0];

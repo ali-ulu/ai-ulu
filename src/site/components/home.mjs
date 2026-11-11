@@ -102,6 +102,7 @@ const why = `<section class="s" id="neden">
     <div class="cell"><span class="n">02</span><h3>Sahibi olduğunuz bir site</h3><p>Ücretsiz araçların ücretsiz planında alan adı onların, tasarım şablonun. Burada alan adı, kod ve içerik sizin adınıza teslim edilir.</p></div>
     <div class="cell"><span class="n">03</span><h3>Yayından sonra da çalışır</h3><p>Araç siteyi kurar ve bırakır. Biz hızı, arama görünürlüğünü ve dönüşümü ölçer, gerektiğinde düzeltiriz.</p></div>
   </div>
+  <p class="lead">Söz yerine kanıt: kendi yazdığım, yayında olan ürünleri <a href="/calismalar/">çalışmalar</a> sayfasında görebilirsiniz.</p>
   <p class="lead">Hangi iş için hangisinin yettiğini <a href="/blog/yapay-zeka-ile-web-sitesi-yapmak/">yazıda</a> ayrıntılı anlattık.</p>
 </section>`;
 
