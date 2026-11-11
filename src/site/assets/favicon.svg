@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e5d2a2"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#9c742e"/></linearGradient></defs><rect x="1" y="1" width="62" height="62" rx="14" fill="#0d0d0d" stroke="#5f4b26" stroke-width="1.2"/><g transform="translate(-5 5) scale(.72)" fill="none" stroke="url(#gold)" stroke-linecap="round" stroke-linejoin="round"><path d="M58 52C48 65 31 68 18 59 5 50 3 32 13 18 23 4 43 3 56 13 63 18 66 24 66 31" stroke-width="8.5"/><path d="M45 43C52 32 63 23 75 19 70 31 70 43 76 54" stroke-width="8"/><path d="M83 22C83 36 85 52 91 66" stroke-width="8.5"/></g><circle cx="54.4" cy="11.1" r="3.6" fill="url(#gold)"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">ai-ulu</title>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="14" fill="#111110" stroke="#5a4923" stroke-width="1.5"/>
+  <text x="32" y="44" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" letter-spacing="-2" fill="#d4af37">ai</text>
+</svg>

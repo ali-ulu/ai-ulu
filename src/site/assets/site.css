@@ -17,7 +17,7 @@
   --surface-2:color-mix(in srgb,var(--fg) 8%,var(--bg));
   --text-2:color-mix(in srgb,var(--fg) 78%,var(--bg));
   --text-3:color-mix(in srgb,var(--fg) 66%,var(--bg));
-  --amber:#b4552f; --accent:#9a3f1d; --logo-mark:#9a742a; --ok:#3f7d4e; --danger:#b3372c;
+  --amber:#b4552f; --accent:#9a3f1d; --logo-accent:#76530f; --ok:#3f7d4e; --danger:#b3372c;
   /* Gold keys: the dock and the footer socials. Fixed in both themes — the glyph
      is dark, so the gold face must stay light. --gold-edge is the extruded side. */
   --gold-1:#f7e0a0; --gold-2:#e0b64a; --gold-3:#c79a2b; --gold-edge:#8a6410;
@@ -37,7 +37,7 @@
   --bg:#111110; --fg:#f1efea;
   /* The accent must flip with the ground: the light-theme red is unreadable on
      near-black, so dark theme uses the warm amber as its accent text. */
-  --accent:#e8b06a; --logo-mark:#d4af37;
+  --accent:#e8b06a; --logo-accent:#d4af37;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:var(--bg);color:var(--fg);-webkit-text-size-adjust:100%}
@@ -78,9 +78,10 @@ img{max-width:100%;display:block}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .site-header.is-stuck{background:var(--bg)}
 }
-.logo{display:inline-flex;align-items:center;gap:.48rem;font-family:var(--head);font-weight:400;font-size:18px;letter-spacing:.015em;text-decoration:none;white-space:nowrap}
-.logo-mark{display:block;width:30px;height:30px;flex:0 0 auto;background:var(--logo-mark);-webkit-mask:url('/logo-mark.svg') center/contain no-repeat;mask:url('/logo-mark.svg') center/contain no-repeat}
-.logo-word{color:inherit}
+.logo{display:inline-flex;align-items:center;font-family:var(--head);font-weight:650;font-size:18px;line-height:1;letter-spacing:-.045em;text-decoration:none;white-space:nowrap}
+.logo-word{display:inline-flex;align-items:baseline;white-space:nowrap}
+.logo-ai{color:var(--logo-accent);font-weight:700}
+.logo-ulu{color:var(--fg);font-weight:600}
 .site-header nav{display:flex;align-items:center;gap:clamp(18px,2.4vw,36px);list-style:none;margin:0;padding:0}
 .site-header nav a{text-decoration:none;font-size:14px;color:var(--muted);transition:color .25s;position:relative}
 .site-header nav a:hover{color:var(--fg)}

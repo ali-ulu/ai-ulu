@@ -44,3 +44,27 @@ test("the fixed bar becomes glass once the page is scrolled", async () => {
   const js = await read("src/site/assets/app.js");
   assert.match(js, /classList\.toggle\("is-stuck", window\.scrollY > 24\)/, "scroll drives the stuck state");
 });
+
+test("the brand is a text-first ai-ulu wordmark with a matching ai monogram", async () => {
+  for (const rel of ["dist/index.html", "dist/gizlilik/index.html"]) {
+    const html = await read(rel);
+    assert.match(html, /<span class="logo-ai">ai<\/span><span class="logo-ulu">-ulu<\/span>/);
+    assert.doesNotMatch(html, /class="logo-mark"/);
+  }
+
+  const logo = await read("src/site/assets/logo.svg");
+  const lightLogo = await read("src/site/assets/logo-light.svg");
+  const favicon = await read("src/site/assets/favicon.svg");
+  assert.match(logo, /<title id="title">ai-ulu<\/title>/);
+  assert.match(logo, /<tspan[^>]*>ai<\/tspan><tspan[^>]*>-ulu<\/tspan>/);
+  assert.match(lightLogo, /<tspan[^>]*>ai<\/tspan><tspan[^>]*>-ulu<\/tspan>/);
+  assert.match(favicon, /text-anchor="middle"[^>]*>ai<\/text>/);
+  assert.doesNotMatch(logo + lightLogo + favicon + await read("src/site/assets/site.css"), /logo-mark|Trust · Control · Intelligence/);
+
+  for (const [rel, size] of [["icon-192.png", 192], ["icon-512.png", 512], ["apple-touch-icon.png", 180]]) {
+    const png = await readFile(join(root, "src/site/assets", rel));
+    assert.deepEqual([...png.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10], `${rel} must be a PNG`);
+    assert.equal(png.readUInt32BE(16), size, `${rel} must have the declared width`);
+    assert.equal(png.readUInt32BE(20), size, `${rel} must have the declared height`);
+  }
+});
