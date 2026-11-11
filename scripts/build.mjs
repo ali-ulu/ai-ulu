@@ -42,6 +42,9 @@ async function build() {
   }
   await rm(dist, { recursive: true, force: true });
   await mkdir(dist, { recursive: true });
+  // GitHub Pages runs Jekyll over a branch-published site unless this file is
+  // present, and Jekyll drops files and folders whose names start with "_".
+  await writeFile(join(dist, ".nojekyll"), "", "utf8");
 
   for (const p of pages) await write(p.file, renderPage(p));
   await write(notFoundPage.file, renderPage(notFoundPage));

@@ -38,17 +38,23 @@ test("the worker claims the custom domain and its www alias", async () => {
 
 // The domain is expired, so GitHub Pages is the address customers get. The same
 // dist/ is published under the /ai-ulu/ project path with a Pages-specific origin.
+//
+// The deploy writes the gh-pages branch rather than using the Pages artifact API:
+// Pages serves that branch, so the site is one commit and does not depend on the
+// Pages Actions API being reachable.
 test("a GitHub Pages job publishes dist/ under the project sub-path", async () => {
   const yml = await read(".github/workflows/deploy.yml");
   assert.match(yml, /^\s{2}pages:/m, "there is a pages job");
-  assert.match(yml, /actions\/configure-pages@/, "configures Pages");
-  assert.match(yml, /actions\/upload-pages-artifact@/, "uploads the artifact");
-  assert.match(yml, /actions\/deploy-pages@/, "deploys Pages");
-  assert.match(yml, /path:\s*dist/, "it publishes the built site");
+  assert.match(yml, /git push[\s\S]*?gh-pages/, "it pushes the gh-pages branch");
+  assert.match(yml, /cd dist/, "it publishes the built site");
   assert.match(yml, /BASE_PATH:\s*\/ai-ulu\//, "the build carries the project base path");
   assert.match(yml, /SITE_URL:\s*https:\/\/ali-ulu\.github\.io\/ai-ulu/, "canonical URLs point at the Pages origin");
-  // Pages writes need their own permissions and environment.
-  assert.match(yml, /pages:\s*write/, "the job may write Pages");
-  assert.match(yml, /id-token:\s*write/, "the job may request an OIDC token");
-  assert.match(yml, /name:\s*github-pages/, "it targets the github-pages environment");
+  assert.match(yml, /contents:\s*write/, "the job may write the branch");
+});
+
+// Pages serves the gh-pages branch through Jekyll unless .nojekyll is present,
+// and Jekyll skips any path starting with "_" (our _headers file).
+test("the build marks the output so Pages serves it without Jekyll", async () => {
+  const build = await read("scripts/build.mjs");
+  assert.match(build, /\.nojekyll/, "the build writes .nojekyll into dist/");
 });
