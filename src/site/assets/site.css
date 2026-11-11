@@ -68,7 +68,7 @@ img{max-width:100%;display:block}
 .site-header nav{display:flex;align-items:center;gap:clamp(18px,2.4vw,36px);list-style:none;margin:0;padding:0}
 .site-header nav a{text-decoration:none;font-size:14px;color:var(--muted);transition:color .25s;position:relative}
 .site-header nav a:hover{color:var(--fg)}
-.nav-cta{padding:8px 16px;border-radius:999px;border:1px solid var(--line);color:var(--fg)!important;transition:background .25s,color .25s}
+.nav-cta{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--fg)!important;transition:background .25s,color .25s}
 .nav-cta:hover{background:var(--fg);color:var(--bg)!important}
 .theme-toggle{display:inline-grid;place-items:center;width:36px;height:36px;padding:0;border-radius:50%;border:1px solid var(--line);background:transparent;color:inherit;cursor:pointer;transition:background .25s,color .25s}
 .theme-toggle:hover{background:var(--fg);color:var(--bg)}

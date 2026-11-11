@@ -25,7 +25,17 @@
   const TEX_W = 256;
   const ROWS = 160;
   const COUNT = TEX_W * ROWS;
-  const COLOR = [0.086, 0.086, 0.078]; // near --fg, so dots read as ink on paper
+  // Dots read as ink on paper; in the dark finish they invert to light. Read
+  // from the live token so the two themes stay in step with the CSS.
+  let COLOR = [0.086, 0.086, 0.078];
+  function syncColor() {
+    const v = getComputedStyle(document.documentElement).getPropertyValue("--fg").trim();
+    const m = v.match(/^#?([0-9a-f]{6})$/i);
+    if (!m) return;
+    const n = parseInt(m[1], 16);
+    COLOR = [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+  }
+  syncColor();
 
   const VS_QUAD = `#version 300 es
 layout(location=0) in vec2 aPos;
@@ -80,7 +90,7 @@ void main(){
   acc += vec2(-n.y, n.x) * f * 1300.0 * uStrength;  // swirled around the cursor
   acc += uVel * f * 6.0;                            // dragged by a fast pointer
 
-  vec2 q = p * 0.006 + vec2(uTime * 0.05, -uTime * 0.03);
+  vec2 q = p * 0.006 + vec2(uTime * 0.35, -uTime * 0.20);
   vec2 c = curl(q) + 0.5 * curl(q * 2.1 + 5.0);
   acc += c * (f * 280.0 + 34.0) * uTurb;
 
@@ -100,14 +110,30 @@ uniform int uTexW;
 uniform vec2 uRes;
 uniform float uDpr;
 uniform float uDot;
+uniform float uTime;
+uniform float uAmbient;
 out float vA;
+${NOISE}
+// Slow, cursor-independent drift so the field breathes even when the pointer is
+// still. Applied at draw time (not in the sim) because the sim's elastic return
+// would otherwise damp it to zero.
+vec2 ambientField(vec2 uv, float t){
+  vec2 q = uv * vec2(3.2, 1.7);
+  vec2 a = vec2(vnoise(q + vec2(t * 0.11, 0.0)) - 0.5, vnoise(q + vec2(5.2, t * 0.08) + 3.1) - 0.5);
+  vec2 q2 = uv * vec2(7.5, 4.0) + vec2(-t * 0.19, t * 0.13);
+  vec2 b = vec2(vnoise(q2 + 1.7) - 0.5, vnoise(q2 + 9.3) - 0.5);
+  return a + b * 0.45;
+}
 void main(){
   int id = gl_VertexID;
   ivec2 ij = ivec2(id % uTexW, id / uTexW);
   vec4 hm = texelFetch(uHome, ij, 0);
   if (hm.w <= 0.0) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); gl_PointSize = 0.0; vA = 0.0; return; }
   vec4 st = texelFetch(uState, ij, 0);
-  vec2 p = hm.xy + st.xy;
+  // Offsetting the noise clock by depth keeps neighbouring dots out of phase, so
+  // the field shimmers instead of sliding as one rigid sheet.
+  vec2 amb = ambientField(hm.xy / uRes, uTime + hm.z * 4.0) * 18.0 * uAmbient;
+  vec2 p = hm.xy + st.xy + amb;
   vec2 clip = vec2(p.x / uRes.x * 2.0 - 1.0, 1.0 - p.y / uRes.y * 2.0);
   gl_Position = vec4(clip, 0.0, 1.0);
   float sp = length(st.zw);
@@ -246,6 +272,12 @@ void main(){
   );
   hero.addEventListener("pointerleave", () => (targetPresence = 0));
 
+  // The theme toggle rewrites --fg; pick the new dot colour up on the next frame.
+  new MutationObserver(syncColor).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+
   let t = 0;
   let last = 0;
 
@@ -296,6 +328,8 @@ void main(){
     gl.uniform2f(draw.u.uRes, w, h);
     gl.uniform1f(draw.u.uDpr, dpr);
     gl.uniform1f(draw.u.uDot, dot);
+    gl.uniform1f(draw.u.uTime, t);
+    gl.uniform1f(draw.u.uAmbient, reduce ? 0 : 1);
     gl.uniform3fv(draw.u.uColor, COLOR);
     gl.drawArrays(gl.POINTS, 0, COUNT);
   }

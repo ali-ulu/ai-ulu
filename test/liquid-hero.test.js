@@ -50,3 +50,17 @@ test("the header is a fixed glass bar that is not a flat fill", async () => {
   assert.match(stuck, /saturate\(/, "it saturates the glass");
   assert.match(css, /@supports not \([^)]*backdrop-filter/, "it needs a fallback when backdrop-filter is unsupported");
 });
+
+// A field that only reacts to the pointer reads as a still image on a phone or
+// on first load. The ambient drift is what keeps it alive, so it is pinned here.
+test("the particle field drifts without any pointer input", async () => {
+  const js = await read("src/site/assets/liquid.js");
+  assert.match(js, /vec2 ambientField\(vec2 uv, float t\)/, "the field needs a time-driven noise field");
+  assert.match(js, /ambientField\(hm\.xy \/ uRes, uTime \+ hm\.z \* 4\.0\)/, "the drift is sampled at draw time, off the cursor");
+  const draw = js.match(/const VS_DRAW = `[\s\S]*?`;/)[0];
+  assert.match(draw, /uTime/, "the draw pass receives the clock");
+  assert.match(draw, /uAmbient/, "the draw pass receives the ambient amount");
+  assert.match(js, /gl\.uniform1f\(draw\.u\.uAmbient, reduce \? 0 : 1\)/, "reduced motion turns the drift off");
+  // The sim's own turbulence must be fast enough to read as motion.
+  assert.match(js, /vec2 q = p \* 0\.006 \+ vec2\(uTime \* 0\.35, -uTime \* 0\.20\)/, "the curl field scrolls at a visible rate");
+});

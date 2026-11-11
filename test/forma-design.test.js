@@ -57,3 +57,15 @@ test("the wordmark and footer close the page", async () => {
   const html = await read("dist/index.html");
   assert.match(html, /<p class="wordmark" aria-hidden="true">ai-ulu<\/p>/, "the footer carries the lockup");
 });
+
+// The nav CTA rides inside the pill header, so it must not inherit the solid
+// .btn fill: a dark fill with dark text made the label invisible until hover.
+test("the header CTA paints its own background so the label stays readable", async () => {
+  const css = await read("src/site/assets/site.css");
+  const cta = css.match(/\.nav-cta\{[^}]*\}/)[0];
+  assert.match(cta, /background:transparent/, "the header CTA clears the inherited solid fill");
+  assert.match(cta, /color:var\(--fg\)!important/, "its label uses the ink colour");
+  const hover = css.match(/\.nav-cta:hover\{[^}]*\}/)[0];
+  assert.match(hover, /background:var\(--fg\)/, "on hover the fill flips to ink");
+  assert.match(hover, /color:var\(--bg\)!important/, "and the label flips to the ground colour");
+});
