@@ -68,3 +68,36 @@ test("breadcrumbs are visible and marked up", async ({ page }) => {
   await expect(crumbs).toBeVisible();
   await expect(crumbs.locator('[aria-current="page"]')).toHaveText("Blog");
 });
+
+// The home hero is a scroll-scrubbed film. It must never trap the reader: the
+// opening chapter is readable at the top, the page still scrolls past it, and a
+// machine without WebGL gets the flat column instead of a blank stage.
+test("the home film shows its opening chapter and scrolls past", async ({ page }) => {
+  await page.goto("/");
+  const c0 = page.locator("#c0");
+  await expect(c0).toBeVisible();
+  await expect(c0.locator("h1")).toContainText("Müşteri getiren");
+  await expect(c0.locator(".btn")).toHaveAttribute("href", /wa\.me/);
+
+  // The film is tall only when the 3D path runs; without WebGL it flattens.
+  const { height, no3d } = await page.evaluate(() => ({
+    height: document.querySelector("#film").offsetHeight,
+    no3d: document.documentElement.classList.contains("no-3d"),
+  }));
+  if (no3d) expect(height).toBeLessThan(4000);
+  else expect(height).toBeGreaterThan(2000);
+
+  // Either way the page scrolls on to the sections that follow the film.
+  await page.locator("#nasil").scrollIntoViewIfNeeded();
+  await expect(page.locator("#nasil")).toBeVisible();
+});
+
+test("the film degrades to a readable column when WebGL is unavailable", async ({ page }) => {
+  await page.addInitScript(() => {
+    HTMLCanvasElement.prototype.getContext = function () { return null; };
+  });
+  await page.goto("/");
+  await expect(page.locator("#c0 h1")).toBeVisible();
+  await expect(page.locator("#c4 h2")).toBeVisible();
+  await expect(page.locator("#film")).toHaveCSS("height", /^(auto|1[0-9]{3}|[0-9]{3})/);
+});

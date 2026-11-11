@@ -76,25 +76,43 @@ img{max-width:100%;display:block}
 :root[data-theme="dark"] .theme-toggle .sun{display:none}
 :root[data-theme="dark"] .theme-toggle .moon{display:block}
 
-/* home: full-bleed liquid-particle hero */
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;overflow:hidden;isolation:isolate;padding:0 var(--gut)}
+/* home: the film — a particle ground under a procedural laptop that types code
+   into a site as you scroll. The copy chapters are positioned by ora.js. */
+.hero{position:relative;height:820vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .hero-stage{position:absolute;inset:0;z-index:0;pointer-events:none}
 .hero-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .6s ease}
 .hero[data-gl="on"] .hero-stage canvas{opacity:1}
-.hero-backdrop{position:absolute;left:50%;top:44%;z-index:0;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none;font-family:var(--head);font-weight:600;letter-spacing:-.06em;line-height:.8;font-size:clamp(90px,22vw,340px);color:color-mix(in srgb,var(--fg) 5%,transparent)}
-.hero-top{flex:0 0 auto;height:74px}
-.hero-content{position:relative;z-index:2;flex:1 1 auto;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:end;gap:clamp(24px,4vw,72px);padding:0 0 clamp(28px,3.4vw,52px)}
-.hero-h1{font-family:var(--head);font-weight:500;font-size:clamp(40px,6.6vw,124px);line-height:.92;letter-spacing:-.045em;margin:0;text-wrap:balance}
-.hero-h1 .ln{display:block}
-.hero-aside{max-width:400px;justify-self:end;padding-bottom:.6em}
-.hero-body{font-size:clamp(15px,1.1vw,17px);line-height:1.5;letter-spacing:-.01em;margin:0 0 26px;color:color-mix(in srgb,var(--fg) 78%,var(--bg));text-wrap:pretty}
-.hero-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:22px}
-.hero-hint{position:absolute;left:50%;bottom:clamp(84px,11vw,120px);z-index:1;transform:translateX(-50%);display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);pointer-events:none;transition:opacity .8s ease}
-.hero-hint::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;animation:hint-pulse 2.4s ease-in-out infinite}
-.hero[data-touched="1"] .hero-hint{opacity:0}
-@keyframes hint-pulse{0%,100%{transform:scale(.6);opacity:.45}50%{transform:scale(1);opacity:1}}
-/* no WebGL2: the hero still reads, without the canvas */
-.hero[data-gl="off"] .hero-hint{display:none}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1;pointer-events:none}
+.ch{position:absolute;z-index:3;left:var(--gut);bottom:clamp(2rem,9vh,6rem);max-width:34rem;opacity:0;visibility:hidden;pointer-events:none;will-change:opacity,transform}
+.ch.on{pointer-events:auto}
+.ch.right{left:auto;right:var(--gut);text-align:right}
+/* the opening chapter is centred; ora.js keeps its -50%/-50% base when it eases.
+   It starts visible so the headline paints before the film module loads. */
+#c0{bottom:auto;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;max-width:56rem;width:calc(100% - 2*var(--gut));opacity:1;visibility:visible;pointer-events:auto}
+#c0 p{margin:0 auto}
+#c0 .cta{justify-content:center}
+.ch h1,.ch h2{font-family:var(--head);font-weight:500;font-size:clamp(2.4rem,5.6vw,5rem);line-height:.95;letter-spacing:-.035em;margin:1rem 0 1.2rem;text-wrap:balance}
+.ch h2{font-size:clamp(2rem,4.4vw,3.9rem)}
+.ch p{font-size:clamp(1rem,1.15vw,1.1rem);line-height:1.5;color:color-mix(in srgb,var(--fg) 78%,var(--bg));max-width:30rem}
+.ch.right p{margin-left:auto}
+.ch .cta{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-top:1.8rem}
+.ch.right .cta{justify-content:flex-end}
+.ch .eyebrow{margin-bottom:.4rem}
+.tag{position:absolute;left:0;top:0;z-index:3;font:500 .78rem/1.3 var(--body);letter-spacing:.01em;color:var(--fg);opacity:0;white-space:nowrap;pointer-events:none;will-change:transform,opacity}
+.tag b{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.35rem;letter-spacing:0;margin-bottom:.3rem;color:var(--amber)}
+.tag::before{content:"";position:absolute;left:-1.6rem;top:.55rem;width:1.1rem;height:1px;background:var(--amber)}
+.hint{position:absolute;z-index:3;left:var(--gut);bottom:1.6rem;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.prog{position:absolute;z-index:3;right:var(--gut);top:50%;transform:translateY(-50%);display:grid;gap:.9rem}
+.prog i{width:1.6rem;height:1px;background:var(--line);transition:background .3s,width .3s}
+.prog i.on{background:var(--fg);width:2.6rem}
+/* no WebGL2 or no JS: flatten the film into a plain, scrollable column */
+.no-3d #film{height:auto}
+.no-3d .stage{position:static;height:auto;padding:7rem 0 4rem}
+.no-3d #gl,.no-3d .tag,.no-3d .prog,.no-3d .hint{display:none}
+.no-3d .ch{position:static;transform:none;opacity:1;visibility:visible;pointer-events:auto;margin:0 auto 5rem;padding:0 var(--gut);text-align:left;max-width:44rem;width:auto}
+.no-3d .ch.right{text-align:left}
+.no-3d .ch.right p,.no-3d .ch.right .cta{margin-left:0;justify-content:flex-start}
 
 /* content sections */
 section.s{padding:clamp(72px,11vw,160px) var(--gut);border-top:1px solid var(--line)}
@@ -174,20 +192,18 @@ section.s{padding:clamp(72px,11vw,160px) var(--gut);border-top:1px solid var(--l
 .form__status[data-state="error"]{color:var(--danger)}
 
 @media (max-width:1024px){
-  .hero-content{grid-template-columns:1fr;gap:28px}
-  .hero-aside{justify-self:start;max-width:520px;padding-bottom:0}
-  .hero-h1{font-size:clamp(38px,9vw,92px)}
-  .hero-hint{bottom:clamp(28px,5vw,48px)}
+  .ch,.ch.right{left:var(--gut);right:var(--gut);text-align:left;bottom:2.2rem;max-width:none}
+  .ch.right p{margin-left:0}
+  .ch.right .cta{justify-content:flex-start}
+  .prog,.tag{display:none}
 }
 @media (max-width:860px){
   .site-header{padding:calc(.5rem + env(safe-area-inset-top,0px)) .7rem}
   .site-header nav{gap:1rem}
   .site-header nav a:not(.keep){display:none}
   .g4,.g3{grid-template-columns:1fr}
-  .hero{padding:0 .7rem}
-  .hero-h1{font-size:clamp(34px,11.5vw,60px);line-height:.94}
-  .hero-backdrop{font-size:clamp(72px,30vw,180px)}
-  .hero-content{padding-bottom:5.2rem}
+  .ch h1{font-size:clamp(1.9rem,8.5vw,3rem)}
+  .ch h2{font-size:clamp(1.7rem,7vw,2.6rem)}
   .footer-grid{grid-template-columns:1fr 1fr}
   .footer-grid>:first-child{grid-column:1/-1}
   .callbar{display:flex;gap:.6rem;position:fixed;left:.7rem;right:.7rem;bottom:calc(.7rem + env(safe-area-inset-bottom,0px));z-index:30}

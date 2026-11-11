@@ -6,7 +6,7 @@
 // a static texture holds where the particle belongs. No WebGL2, or no float
 // render target: the canvas is removed and the hero falls back to its DOM copy.
 (() => {
-  const hero = document.getElementById("hero");
+  const hero = document.querySelector(".hero");
   const canvas = document.getElementById("liquid");
   if (!hero || !canvas) return;
 

@@ -29,9 +29,9 @@ test("the type scale is clamped and fluid", async () => {
   assert.match(display, /clamp\(44px,7vw,120px\)/, "the display size is fluid");
   const h2 = css.match(/\.s h1,\.s h2\{[^}]*\}/)[0];
   assert.match(h2, /clamp\(/, "section heads scale with the viewport");
-  const hero = css.match(/\.hero-h1\{[^}]*\}/)[0];
-  assert.match(hero, /font-weight:500/, "the hero headline is medium weight");
-  assert.match(hero, /letter-spacing:-\.04/, "the hero headline is tightly set");
+  const chapter = css.match(/\.ch h1,\.ch h2\{[^}]*\}/)[0];
+  assert.match(chapter, /font-weight:500/, "chapter headlines are medium weight");
+  assert.match(chapter, /letter-spacing:-\.035/, "chapter headlines are tightly set");
 });
 
 test("content sections are divided by a hairline rule, not tiles", async () => {

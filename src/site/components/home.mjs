@@ -13,28 +13,69 @@ function turnstileWidget() {
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>`;
 }
 
-// The Forma hero: a full-bleed liquid-particle canvas, the wordmark behind the
-// copy, and the studio headline with an italic accent. The copy is in the DOM
-// first, so it reads without JavaScript and can be the LCP element.
-const hero = `<section class="hero" id="hero" data-gl="off">
-  <div class="hero-stage"><canvas id="liquid" aria-hidden="true"></canvas></div>
-  <div class="hero-backdrop" aria-hidden="true">${site.name}</div>
-  <div class="hero-top" aria-hidden="true"></div>
-  <div class="hero-content">
-    <div class="hero-lead">
-      <p class="eyebrow">Web sitesi · Tasarım · Görünürlük</p>
-      <h1 class="hero-h1"><span class="ln">Müşteri getiren</span><span class="ln"><span class="serif">bir web sitesi.</span></span></h1>
-    </div>
-    <div class="hero-aside">
-      <p class="hero-body">Harika tasarım, Google'da ve yapay zekâ aramalarında görünen, ziyaretçiyi müşteriye çeviren siteler kuruyoruz.</p>
-      <div class="hero-ctas">
+// Without JS the 3D film never runs, so every chapter would stay at opacity:0 and
+// the page would read as empty. These rules flatten the chapters into a plain,
+// scrollable column. The same shape is applied at runtime via `.no-3d`.
+export const noJsStyles = `<noscript><style>
+#film{height:auto}
+.stage{position:static;height:auto;padding:7rem 0 4rem}
+#gl,.tag,.prog,.hint{display:none}
+.ch{position:static;transform:none;opacity:1;visibility:visible;pointer-events:auto;margin:0 auto 5rem;padding:0 var(--gut);text-align:left;max-width:44rem;width:auto}
+.ch.right{text-align:left}
+.ch.right p,.ch.right .cta{margin-left:0;justify-content:flex-start}
+</style></noscript>`;
+
+// data-a / data-b: scroll progress (0–1) where each chapter fades in and out (read by ora.js).
+// The particle canvas is the ground layer; the 3D laptop film renders above it.
+const hero = `<div class="hero" id="film">
+  <div class="stage">
+    <div class="hero-stage"><canvas id="liquid" aria-hidden="true"></canvas></div>
+    <canvas id="gl" aria-hidden="true"></canvas>
+
+    <div class="ch" id="c0" data-a="0" data-b=".085">
+      <span class="eyebrow">Web sitesi · Tasarım · Görünürlük</span>
+      <h1>Müşteri getiren <em>bir web sitesi.</em></h1>
+      <p>Harika tasarım, Google'da ve yapay zekâ aramalarında görünen, ziyaretçiyi müşteriye çeviren siteler kuruyoruz.</p>
+      <div class="cta">
         ${wa}Ücretsiz görüşme <span aria-hidden="true">→</span></a>
         <a class="tlink" href="#paketler">Paketler <span aria-hidden="true">→</span></a>
       </div>
     </div>
+
+    <div class="ch" id="c1" data-a=".14" data-b=".36">
+      <span class="eyebrow">01 — Kod</span>
+      <h2>Her satır <em>sizin için</em> yazılır.</h2>
+      <p>Hazır şablon yok. Siteniz sıfırdan, işletmenizin hedefine göre kodlanır: hızlı, temiz ve size ait.</p>
+    </div>
+
+    <div class="ch right" id="c2" data-a=".42" data-b=".58">
+      <span class="eyebrow">02 — Tasarım</span>
+      <h2>Kod, <em>vitrininize</em> dönüşür.</h2>
+      <p>Sektörünüze özel, ilk saniyede güven veren bir tasarım. Rakiplerinizden ayrışırsınız.</p>
+    </div>
+
+    <div class="ch" id="c3" data-a=".64" data-b=".8">
+      <span class="eyebrow">03 — İçinde ne var</span>
+      <h2>Güzel görünmesi <em>yetmez.</em></h2>
+      <p>Her katman tek bir iş için çalışır: sizi bulduran, ikna eden ve aratan bir site.</p>
+    </div>
+
+    <div class="ch right" id="c4" data-a=".88" data-b="1.01">
+      <span class="eyebrow">04 — Yayında</span>
+      <h2>Müşteriniz sizi <em>bulsun.</em></h2>
+      <p>Telefonda kusursuz, saniyeler içinde açılan, tek dokunuşla WhatsApp'tan size ulaştıran siteniz hazır.</p>
+      <div class="cta"><a class="btn" href="#iletisim">Projeyi başlatalım <span aria-hidden="true">→</span></a></div>
+    </div>
+
+    <div class="tag" aria-hidden="true"><b>Tasarım</b>Markanıza özel arayüz</div>
+    <div class="tag" aria-hidden="true"><b>Hız</b>Saniyeler içinde açılış</div>
+    <div class="tag" aria-hidden="true"><b>Görünürlük</b>Google + yapay zekâ aramaları</div>
+    <div class="tag" aria-hidden="true"><b>Dönüşüm</b>Tek dokunuşla WhatsApp</div>
+
+    <div class="prog" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="hint" id="hint" aria-hidden="true">Kaydırın</div>
   </div>
-  <p class="hero-hint" aria-hidden="true">İmleci gezdirin</p>
-</section>`;
+</div>${noJsStyles}`;
 
 const benefits = `<section class="s" id="nasil">
   <span class="eyebrow">Ne kazanırsınız</span>
