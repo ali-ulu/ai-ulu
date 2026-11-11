@@ -18,6 +18,9 @@
   --text-2:color-mix(in srgb,var(--fg) 78%,var(--bg));
   --text-3:color-mix(in srgb,var(--fg) 66%,var(--bg));
   --amber:#b4552f; --accent:#9a3f1d; --logo-mark:#9a742a; --ok:#3f7d4e; --danger:#b3372c;
+  /* Gold keys: the dock and the footer socials. Fixed in both themes — the glyph
+     is dark, so the gold face must stay light. --gold-edge is the extruded side. */
+  --gold-1:#f7e0a0; --gold-2:#e0b64a; --gold-3:#c79a2b; --gold-edge:#8a6410;
   --head:"Geist","Helvetica Neue",Arial,sans-serif;
   --sans:var(--head);
   --body:var(--head);
@@ -81,8 +84,6 @@ img{max-width:100%;display:block}
 .site-header nav{display:flex;align-items:center;gap:clamp(18px,2.4vw,36px);list-style:none;margin:0;padding:0}
 .site-header nav a{text-decoration:none;font-size:14px;color:var(--muted);transition:color .25s;position:relative}
 .site-header nav a:hover{color:var(--fg)}
-.nav-cta{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--fg)!important;transition:background .25s,color .25s}
-.nav-cta:hover{background:var(--fg);color:var(--bg)!important}
 .theme-toggle{display:inline-grid;place-items:center;width:36px;height:36px;padding:0;border-radius:50%;border:1px solid var(--line);background:transparent;color:inherit;cursor:pointer;transition:background .25s,color .25s}
 .theme-toggle:hover{background:var(--fg);color:var(--bg)}
 .theme-toggle .moon{display:none}
@@ -191,14 +192,14 @@ section.s{padding:clamp(72px,11vw,160px) var(--gut);border-top:1px solid var(--l
 
 /* Contact dock: a fixed pair of round buttons at the bottom-right — WhatsApp and
    a direct call — so a visitor can reach the owner from anywhere without hunting
-   for the form. Inline SVG only (CSP 'self'); 44px+ targets for touch. */
-.dock{position:fixed;right:clamp(12px,2.4vw,22px);bottom:calc(clamp(12px,2.4vw,22px) + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;gap:.7rem}
-.dock-btn{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;color:#fff;text-decoration:none;box-shadow:0 10px 26px -8px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.22);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
-.dock-btn:hover{transform:translateY(-3px);box-shadow:0 16px 34px -10px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.25)}
-.dock-btn:active{transform:translateY(0)}
+   for the form. Gold 3D keys, matching the footer social buttons: a lit face, a
+   dark extruded edge, and a dark glyph that stays legible on the gold. Inline SVG
+   only (CSP 'self'); 54px targets for touch. */
+.dock{position:fixed;right:clamp(12px,2.4vw,22px);bottom:calc(clamp(12px,2.4vw,22px) + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;gap:.75rem}
+.dock-btn{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;color:#2a1e05;text-decoration:none;background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 58%,var(--gold-3));box-shadow:0 5px 0 var(--gold-edge),inset 0 1px 0 rgba(255,255,255,.75),inset 0 -3px 5px rgba(120,80,0,.45),0 10px 22px -6px rgba(0,0,0,.45);transition:transform .2s var(--ease),box-shadow .2s var(--ease),filter .2s var(--ease)}
+.dock-btn:hover{transform:translateY(-3px);filter:saturate(1.08) brightness(1.03);box-shadow:0 8px 0 var(--gold-edge),inset 0 1px 0 rgba(255,255,255,.8),inset 0 -3px 5px rgba(120,80,0,.45),0 16px 30px -8px rgba(0,0,0,.5)}
+.dock-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--gold-edge),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -2px 4px rgba(120,80,0,.5),0 4px 10px -4px rgba(0,0,0,.4)}
 .dock-btn svg{display:block}
-.dock-btn.wa{background:#25d366}
-.dock-btn.tel{background:var(--fg);color:var(--bg)}
 
 /* shared form bits (the postcard itself lives in postmark-form.css) */
 .field--hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}

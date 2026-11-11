@@ -58,14 +58,26 @@ test("the wordmark and footer close the page", async () => {
   assert.match(html, /<p class="wordmark" aria-hidden="true">ai-ulu<\/p>/, "the footer carries the lockup");
 });
 
-// The nav CTA rides inside the pill header, so it must not inherit the solid
-// .btn fill: a dark fill with dark text made the label invisible until hover.
-test("the header CTA paints its own background so the label stays readable", async () => {
+// The contact dock at the bottom-right is the single always-visible WhatsApp
+// entry point; the header no longer carries one, so nothing competes with it.
+test("the header does not duplicate the dock's WhatsApp button", async () => {
+  const html = await read("dist/index.html");
+  const header = html.split('class="site-header"')[1].split("</header>")[0];
+  assert.doesNotMatch(header, /wa\.me/, "the header must not carry a WhatsApp button");
+  assert.doesNotMatch(html, /class="btn nav-cta"/, "the old header CTA is gone");
+});
+
+// The gold keys are a fixed pair: a lit face, a darker extruded edge, and a dark
+// glyph. They stay gold in both themes, so the glyph must stay dark.
+test("the contact dock is a gold 3D key with a dark glyph", async () => {
   const css = await read("src/site/assets/site.css");
-  const cta = css.match(/\.nav-cta\{[^}]*\}/)[0];
-  assert.match(cta, /background:transparent/, "the header CTA clears the inherited solid fill");
-  assert.match(cta, /color:var\(--fg\)!important/, "its label uses the ink colour");
-  const hover = css.match(/\.nav-cta:hover\{[^}]*\}/)[0];
-  assert.match(hover, /background:var\(--fg\)/, "on hover the fill flips to ink");
-  assert.match(hover, /color:var\(--bg\)!important/, "and the label flips to the ground colour");
+  const root = css.match(/:root\{[^}]*\}/)[0];
+  for (const token of ["--gold-1:", "--gold-2:", "--gold-3:", "--gold-edge:"]) {
+    assert.ok(root.includes(token), `site.css must define ${token}`);
+  }
+  const btn = css.match(/\.dock-btn\{[^}]*\}/)[0];
+  assert.match(btn, /background:linear-gradient\(180deg,var\(--gold-1\)/, "the key face is a gold gradient");
+  assert.match(btn, /0 5px 0 var\(--gold-edge\)/, "the key has an extruded edge");
+  assert.match(btn, /color:#2a1e05/, "the glyph is dark on the gold");
+  assert.doesNotMatch(btn, /color:#fff/, "a white glyph would fail contrast on gold");
 });
