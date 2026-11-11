@@ -117,7 +117,6 @@ function footer(note) {
       ${social}
     </div>
   </div>
-  <p class="wordmark" aria-hidden="true">${site.name}</p>
   <div class="footer-base">
     <span>© ${new Date().getFullYear()} ${escapeHtml(site.owner)} · ${site.name}${note ? ` · ${escapeHtml(note)}` : ""}</span>
     <div class="footer-end"><a class="credit" href="/blog/">Blog</a></div>

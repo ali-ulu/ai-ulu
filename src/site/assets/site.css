@@ -167,7 +167,7 @@ section.s{padding:clamp(72px,11vw,160px) var(--gut);border-top:1px solid var(--l
 .prose p{color:var(--muted);margin-top:.6rem;line-height:1.65}
 .prose a{color:var(--fg)}
 
-/* footer with the studio wordmark */
+/* footer */
 .site-footer{padding:clamp(56px,8vw,120px) var(--gut) calc(env(safe-area-inset-bottom,0px) + 28px);border-top:1px solid var(--line)}
 .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
 .footer-grid .footer-h{margin:0 0 16px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
@@ -176,8 +176,7 @@ section.s{padding:clamp(72px,11vw,160px) var(--gut);border-top:1px solid var(--l
 .footer-grid a:hover{text-decoration:underline;text-underline-offset:4px}
 .footer-note{font-size:clamp(16px,1.4vw,20px);line-height:1.4;max-width:22ch;text-wrap:pretty}
 .footer-grid .btn{margin-top:1.4rem}
-.wordmark{font-family:var(--head);font-weight:600;letter-spacing:-.07em;line-height:.78;font-size:clamp(72px,23vw,360px);margin:clamp(40px,7vw,110px) 0 0;white-space:nowrap;overflow:hidden}
-.footer-base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:28px;font-size:12px;color:var(--muted)}
+.footer-base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:clamp(40px,7vw,110px);font-size:12px;color:var(--muted)}
 .footer-end{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap}
 .site-footer .footer-social{display:flex;gap:.9rem}
 .footer-social svg{display:block}

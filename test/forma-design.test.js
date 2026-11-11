@@ -49,13 +49,12 @@ test("the grid recomposes to one column on small screens", async () => {
   assert.match(css, /\.g4,\.g3\{grid-template-columns:1fr\}/, "four- and three-up grids collapse on phones");
 });
 
-test("the wordmark and footer close the page", async () => {
+test("the footer closes the page without a giant wordmark", async () => {
   const css = await read("src/site/assets/site.css");
-  const mark = css.match(/\.wordmark\{[^}]*\}/)[0];
-  assert.match(mark, /font-size:clamp\(72px,23vw,360px\)/, "the wordmark is a large, fluid lockup");
-  assert.match(mark, /white-space:nowrap/, "the lockup never wraps");
+  assert.doesNotMatch(css, /\.wordmark\{/, "the oversized wordmark style is gone");
   const html = await read("dist/index.html");
-  assert.match(html, /<p class="wordmark" aria-hidden="true">ai-ulu<\/p>/, "the footer carries the lockup");
+  assert.doesNotMatch(html, /class="wordmark"/, "no page carries the wordmark lockup");
+  assert.match(html, /class="footer-base"/, "the footer base line still closes the page");
 });
 
 // The contact dock at the bottom-right is the single always-visible WhatsApp
