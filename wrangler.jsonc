@@ -1,0 +1,52 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "ai-ulu-com",
+  "main": "./src/worker.js",
+  "compatibility_date": "2026-10-30",
+  "upload_source_maps": true,
+  "workers_dev": true,
+
+  "routes": [
+    { "pattern": "ai-ulu.com", "custom_domain": true },
+    { "pattern": "www.ai-ulu.com", "custom_domain": true }
+  ],
+
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash",
+    "run_worker_first": ["/api/*"]
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ai-ulu-leads",
+      "database_id": "80c76947-fb10-4bb4-8ac5-4e88b0bb5b77"
+    }
+  ],
+
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "aliulu@ai-ulu.com",
+      "allowed_sender_addresses": ["noreply@ai-ulu.com"]
+    }
+  ],
+
+  "vars": {
+    "FROM_EMAIL": "noreply@ai-ulu.com",
+    "TO_EMAIL": "aliulu@ai-ulu.com",
+    "RATE_LIMIT_WINDOW_MINUTES": "15",
+    "RATE_LIMIT_MAX_SUBMISSIONS": "5"
+  },
+
+  "observability": {
+    "enabled": true
+  },
+
+  "triggers": {
+    "crons": ["0 3 * * *"]
+  }
+}

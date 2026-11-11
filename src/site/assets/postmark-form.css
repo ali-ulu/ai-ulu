@@ -1,0 +1,474 @@
+/* Postmark — postcard contact form (adapted from the Framer "Postmark" block).
+   Loaded only on the home page, after site.css. Scoped to .pm so it cannot
+   reach the rest of the site. No embedded webfonts beyond the self-hosted
+   Caveat (CSP font-src 'self'); grain is a data-URI SVG (img-src 'self' data:). */
+
+.pm {
+  --pm-paper: #f4efe4;
+  --pm-paper-2: #ece5d5;
+  --pm-ink: #23324a;
+  --pm-ink-2: #5c6577;
+  --pm-line: rgba(35, 50, 74, 0.16);
+  --pm-rule: rgba(35, 50, 74, 0.42);
+  --pm-post: #ff7a4d;
+  --pm-stamp: #b4552f;
+  --pm-hand: "Caveat", "Segoe Script", cursive;
+  --pm-sans: var(--sans);
+  --pm-mono: var(--mono);
+  --pm-rule-h: 42px;
+  --pm-tilt: -0.6deg;
+  container: pm / inline-size;
+  max-width: 56rem;
+  margin-top: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+/* ------------------------------------------------------------------ the card */
+/* display:flex would otherwise beat the [hidden] attribute, leaving the sent card
+   on screen after submit. */
+.pm-card[hidden] {
+  display: none;
+}
+.pm-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2.2cqi, 1.6rem);
+  padding: clamp(1.4rem, 3.2cqi, 2.4rem) clamp(1.4rem, 3.4cqi, 2.6rem) clamp(1.1rem, 2.4cqi, 1.8rem);
+  border-radius: 6px;
+  background:
+    radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(168deg, var(--pm-paper), var(--pm-paper-2));
+  color: var(--pm-ink);
+  transform: rotate(var(--pm-tilt));
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.08),
+    0 30px 80px -20px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.pm-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+  gap: clamp(1.6rem, 3.4cqi, 3.2rem);
+  min-width: 0;
+}
+/* A faint fibre grain, so the paper is not a flat fill. */
+.pm-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------------------ message */
+.pm-left {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.pm-greet {
+  font: 600 clamp(1.5rem, 2.4cqi, 1.9rem)/1 var(--pm-hand);
+  color: var(--pm-ink-2);
+  padding-left: 0.15em;
+}
+.pm-write {
+  position: relative;
+  min-height: 0;
+}
+.pm textarea {
+  width: 100%;
+  height: 100%;
+  min-height: 13rem;
+  padding: 0;
+  border: 0;
+  resize: none;
+  background: transparent;
+  color: var(--pm-ink);
+  font: 400 var(--pm-size, 34px)/var(--pm-rule-h) var(--pm-hand);
+  letter-spacing: 0.01em;
+  /* Ruled writing lines; `local` keeps them under the text as it scrolls. */
+  background-image: repeating-linear-gradient(
+    transparent 0,
+    transparent calc(var(--pm-rule-h) - 1px),
+    var(--pm-line) calc(var(--pm-rule-h) - 1px),
+    var(--pm-line) var(--pm-rule-h)
+  );
+  background-attachment: local;
+  caret-color: var(--pm-post);
+}
+.pm textarea::placeholder {
+  color: rgba(35, 50, 74, 0.34);
+}
+.pm textarea:focus {
+  outline: none;
+}
+.pm textarea:focus-visible {
+  outline: 2px solid var(--pm-post);
+  outline-offset: 6px;
+  border-radius: 3px;
+}
+.pm-count {
+  position: absolute;
+  top: -0.2rem;
+  right: 0;
+  font: 500 0.7rem/1 var(--pm-mono);
+  letter-spacing: 0.08em;
+  color: rgba(35, 50, 74, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+.pm-sign {
+  font: 600 clamp(1.4rem, 2.2cqi, 1.75rem)/1.2 var(--pm-hand);
+  color: var(--pm-ink);
+  border-top: 1px dashed rgba(35, 50, 74, 0.28);
+  padding-top: 0.5rem;
+}
+.pm-sign b {
+  font-weight: 600;
+  color: var(--pm-post);
+}
+
+/* ------------------------------------------------------------------ stamps */
+.pm-right {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2cqi, 1.5rem);
+  min-width: 0;
+}
+.pm-stamps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.pm-stamps legend {
+  font: 500 0.62rem/1 var(--pm-mono);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(35, 50, 74, 0.55);
+  margin-bottom: 0.5rem;
+}
+.pm-stamps label {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+.pm-stamp {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 0.1rem;
+  width: 3.1rem;
+  min-height: 3.6rem;
+  padding: 0.35rem 0.2rem 0.3rem;
+  color: var(--pm-stamp);
+  background: rgba(255, 255, 255, 0.42);
+  border: 1.5px dashed rgba(35, 50, 74, 0.32);
+  border-radius: 3px;
+  transform: rotate(var(--pm-tilt-stamp, 0deg));
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+.pm-stamp .pm-glyph {
+  font-size: 1.25rem;
+  line-height: 1;
+  color: inherit;
+}
+.pm-stamp span {
+  font: 500 0.52rem/1 var(--pm-mono);
+  letter-spacing: 0.02em;
+  color: var(--pm-ink-2);
+  text-align: center;
+}
+.pm-stamps input {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.pm-stamps input:checked + .pm-stamp {
+  color: var(--pm-post);
+  border-color: var(--pm-post);
+  border-style: solid;
+  background: rgba(255, 122, 77, 0.12);
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 0 6px 14px -6px rgba(255, 122, 77, 0.6);
+}
+.pm-stamps input:checked + .pm-stamp span {
+  color: var(--pm-ink);
+}
+.pm-stamps input:focus-visible + .pm-stamp {
+  outline: 2px solid var(--pm-post);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------- to / from */
+.pm-block {
+  border-top: 1px solid var(--pm-rule);
+  padding-top: 0.5rem;
+}
+.pm-block:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+.pm-label {
+  font: 500 0.62rem/1 var(--pm-mono);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(35, 50, 74, 0.55);
+  margin-bottom: 0.4rem;
+}
+.pm-addr {
+  font: 400 1.15rem/1.35 var(--pm-hand);
+  color: var(--pm-ink-2);
+}
+.pm-addr strong {
+  display: block;
+  font-size: 1.5rem;
+  color: var(--pm-ink);
+}
+.pm-fields {
+  display: grid;
+  gap: 0.55rem;
+}
+.pm-fields input,
+.pm-fields select {
+  width: 100%;
+  min-height: 2.7rem;
+  padding: 0.35rem 0.6rem;
+  border: 0;
+  border-bottom: 1.5px solid var(--pm-rule);
+  background: transparent;
+  color: var(--pm-ink);
+  font: 400 1.3rem/1.3 var(--pm-hand);
+  border-radius: 0;
+}
+.pm-fields select {
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--pm-ink-2) 50%), linear-gradient(135deg, var(--pm-ink-2) 50%, transparent 50%);
+  background-position: calc(100% - 1rem) 1.15rem, calc(100% - 0.65rem) 1.15rem;
+  background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+  background-repeat: no-repeat;
+}
+.pm-fields input::placeholder {
+  color: rgba(35, 50, 74, 0.36);
+  font-family: var(--pm-hand);
+}
+.pm-fields input:focus,
+.pm-fields select:focus {
+  outline: none;
+  border-bottom-color: var(--pm-post);
+}
+.pm-fields input:focus-visible,
+.pm-fields select:focus-visible {
+  outline: 2px solid var(--pm-post);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ------------------------------------------------------------------- seal */
+.pm-seal {
+  position: absolute;
+  top: -1.6rem;
+  right: -1.1rem;
+  width: 6.4rem;
+  height: 6.4rem;
+  color: var(--pm-post);
+  opacity: 0.85;
+  transform: rotate(9deg);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+.pm-seal svg {
+  width: 100%;
+  height: 100%;
+}
+.pm-seal text {
+  font-family: var(--pm-mono);
+  font-size: 8.6px;
+  letter-spacing: 0.16em;
+  fill: currentColor;
+  text-transform: uppercase;
+}
+.pm-seal .pm-seal-c {
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+/* ------------------------------------------------------------------- foot */
+.pm-foot {
+  display: grid;
+  gap: 0.7rem;
+  justify-items: center;
+  margin-top: clamp(1.2rem, 2.4cqi, 1.8rem);
+}
+.pm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.95rem 1.6rem;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--pm-post);
+  color: #2a1408;
+  font: 600 1.02rem/1 var(--pm-sans);
+  letter-spacing: 0.01em;
+  box-shadow: 0 14px 30px -12px rgba(255, 122, 77, 0.75);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+}
+.pm-btn span {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  background: rgba(42, 20, 8, 0.14);
+  font-size: 0.9rem;
+}
+.pm-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 38px -14px rgba(255, 122, 77, 0.85);
+  filter: saturate(1.06);
+}
+.pm-btn:focus-visible {
+  outline: 2px solid var(--pm-ink);
+  outline-offset: 3px;
+}
+.pm-btn:disabled {
+  cursor: progress;
+  filter: grayscale(0.3) brightness(0.96);
+  transform: none;
+}
+.pm .form__note {
+  color: var(--pm-ink-2);
+  text-align: center;
+  max-width: 34ch;
+}
+.pm .form__note a {
+  color: var(--pm-stamp);
+}
+.pm .form__status {
+  min-height: 1.4em;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--pm-ink-2);
+}
+.pm .form__status[data-state="ok"] {
+  color: #2f7d4a;
+  font-weight: 500;
+}
+.pm .form__status[data-state="error"] {
+  color: #b2402f;
+  font-weight: 500;
+}
+
+/* The honeypot stays off-canvas; site.css already defines .field--hp. */
+
+/* -------------------------------------------------------------- send-away */
+.pm.is-sent .pm-card {
+  animation: pm-fly 0.9s cubic-bezier(0.34, 0.01, 0.4, 1) forwards;
+}
+@keyframes pm-fly {
+  to {
+    transform: translate(46%, -60%) rotate(16deg) scale(0.72);
+    opacity: 0;
+  }
+}
+.pm-thanks {
+  display: grid;
+  gap: 0.5rem;
+  place-content: center;
+  text-align: center;
+  min-height: 16rem;
+  padding: clamp(1.4rem, 3.2cqi, 2.4rem);
+  border-radius: 6px;
+  background: linear-gradient(168deg, var(--pm-paper), var(--pm-paper-2));
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.08),
+    0 30px 80px -20px rgba(0, 0, 0, 0.62);
+  font-family: var(--pm-hand);
+  color: var(--pm-ink);
+  animation: pm-land 0.5s ease both;
+}
+@keyframes pm-land {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.pm-thanks[hidden] {
+  display: none;
+}
+.pm-thanks b {
+  font-size: clamp(1.8rem, 3.4cqi, 2.4rem);
+  font-weight: 600;
+  color: var(--pm-post);
+}
+.pm-thanks p {
+  font-size: 1.25rem;
+  color: var(--pm-ink-2);
+}
+
+/* ------------------------------------------------------------- recompose */
+.pm-aside {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem 1.2rem;
+  margin-top: 1.8rem;
+  font-size: 0.9rem;
+  color: var(--dim);
+}
+.pm-aside a {
+  color: var(--soft);
+}
+@container pm (max-width: 780px) {
+  .pm-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pm-left {
+    order: 2;
+  }
+  .pm-right {
+    order: 1;
+  }
+  .pm-seal {
+    width: 5rem;
+    height: 5rem;
+    top: -1.2rem;
+    right: -0.6rem;
+  }
+}
+@container pm (max-width: 440px) {
+  .pm-stamp {
+    width: 2.8rem;
+    min-height: 3.3rem;
+  }
+  .pm-card {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-stamp,
+  .pm-btn {
+    transition: none;
+  }
+  .pm-stamps input:checked + .pm-stamp {
+    transform: none;
+  }
+  .pm.is-sent .pm-card {
+    animation-duration: 0.001ms;
+  }
+}

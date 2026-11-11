@@ -1,0 +1,47 @@
+/* Çalışmalar: the owner's own products plus articles published elsewhere.
+   Loaded only by /calismalar/. Tokens and card language come from site.css and
+   blog.css, so the page sits inside the existing look. No external images: the
+   CSP is 'self'-only and the cards are built from type and borders. */
+.wk-wrap{max-width:58rem;margin:0 auto}
+.wk-intro{max-width:44rem}
+.wk-intro h1{font:400 clamp(2rem,4.6vw,3.4rem)/1.05 var(--serif);letter-spacing:-.01em;margin:1rem 0 1.2rem;text-wrap:balance;text-shadow:0 2px 30px rgba(6,7,9,.85)}
+.wk-intro .lead{color:var(--soft);font-size:1.08rem;text-shadow:0 1px 18px rgba(6,7,9,.8)}
+
+.wk-list{list-style:none;margin:2.8rem 0 0;display:grid;gap:1.1rem}
+.wk-item{display:flex;flex-direction:column;gap:.7rem;padding:1.8rem 1.9rem;border-radius:18px;border:1px solid var(--line);background:linear-gradient(163deg,rgba(255,255,255,.06),rgba(255,255,255,0) 44%),rgba(14,16,20,.55);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 26px 60px -42px rgba(0,0,0,.95);transition:border-color .45s,box-shadow .45s}
+.wk-item:hover{border-color:rgba(236,231,222,.24)}
+/* The first product is the flagship; a warm left rule marks it without shouting. */
+.wk-item--featured{border-color:rgba(224,164,88,.34);box-shadow:inset 2px 0 0 var(--amber),inset 0 1px 0 rgba(255,255,255,.06),0 30px 66px -42px rgba(0,0,0,.95)}
+.wk-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.9rem}
+.wk-head h2{font:400 1.75rem/1.1 var(--serif);margin:0;color:var(--bone)}
+.wk-tag{color:var(--amber);font:500 .78rem/1.3 var(--sans);letter-spacing:.01em}
+.wk-summary{color:var(--soft);font-size:1rem}
+.wk-detail{color:var(--dim);font-size:.92rem}
+
+.wk-stack{list-style:none;display:flex;flex-wrap:wrap;gap:.45rem;margin:.3rem 0 0}
+.wk-stack li{font:500 .68rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding:.42rem .62rem;border:1px solid rgba(236,231,222,.16);border-radius:999px}
+
+.wk-links{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:.5rem}
+.wk-link{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:.7rem 1.1rem;border-radius:999px;background:var(--bone);color:var(--ink);text-decoration:none;font:600 .8rem/1 var(--sans);letter-spacing:.02em;transition:transform .3s,background .3s}
+.wk-link:hover{background:#fff;transform:translateY(-1px)}
+.wk-link-kind{font:500 .62rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;opacity:.55}
+
+.wk-articles{margin-top:4rem}
+.wk-articles > h2{font:400 clamp(1.5rem,3vw,2.1rem)/1.15 var(--serif);margin:0 0 .8rem;text-wrap:balance}
+.wk-articles > .lead{color:var(--soft);font-size:1rem;max-width:44rem}
+.wk-article-list{list-style:none;margin:1.8rem 0 0;display:grid;gap:.6rem}
+.wk-article a{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.6rem 1.2rem;padding:1.1rem 1.2rem;border-radius:14px;border:1px solid var(--line);background:rgba(14,16,20,.4);text-decoration:none;transition:border-color .35s,background .35s,transform .35s}
+.wk-article a:hover{border-color:rgba(236,231,222,.24);background:rgba(20,23,28,.6);transform:translateX(3px)}
+.wk-article-title{color:var(--soft);font-size:.98rem;max-width:44rem;transition:color .3s}
+.wk-article a:hover .wk-article-title{color:var(--bone)}
+.wk-article-meta{display:inline-flex;align-items:center;gap:.7rem;font:500 .66rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.wk-platform{color:var(--amber)}
+
+.wk-cta{margin-top:3.4rem}
+
+@media (max-width:860px){
+  .wk-item{padding:1.4rem 1.3rem}
+  .wk-head{gap:.4rem}
+  .wk-article a{transform:none}
+  .wk-article a:hover{transform:none}
+}

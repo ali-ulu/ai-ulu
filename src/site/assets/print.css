@@ -1,0 +1,23 @@
+/* Print: drop the decorative layers and keep the reading surface.
+   Linked with media="print" from the shared head. */
+@media print {
+  :root { color-scheme: light; }
+  html { background: #fff; color: #111; font-size: 12pt; }
+  body { background: #fff; overflow: visible; }
+
+  /* Chrome: the canvas background, the vignette, the preloader, the floating
+     chrome and the call bar are all screen-only. */
+  #vortex, .vignette, #pre, .callbar, .site-header, .footer-social, .nf-links { display: none !important; }
+
+  a { color: #111; text-decoration: underline; }
+  /* Show where a link points, since the reader cannot click it. */
+  main a[href^="/"]::after, main a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #555; }
+  main a[href^="#"]::after { content: ""; }
+
+  .s { padding: 0 !important; }
+  .bl-wrap, .wk-wrap, .prose, .nf-wrap { max-width: 100% !important; }
+  img, canvas, svg { max-width: 100% !important; }
+  .bl-card, .wk-item, .prose > * { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  .site-footer { border-top: 1px solid #ccc; color: #333; }
+}
