@@ -40,7 +40,7 @@ export const workBody = () => `<section class="s wk">
     <header class="wk-intro">
       <p class="eyebrow">Çalışmalar</p>
       <h1>Kendi yazdığım <em>yazılımlar</em></h1>
-      <p class="lead">Ajans yeni; müşteri referansı henüz yok. O yüzden şunu göstereyim: çalışan, kaynak kodu açık, kendi ürünlerim. Bir siteyi ya da uygulamayı baştan sona kurup yayında tutabiliyorsam, sizinki için de aynı işi yaparım.</p>
+      <p class="lead">Yayında olan, kaynak kodu açık, baştan sona kendi yazdığım ürünler. Bir ürünü kurup yayında tutabiliyorsam, sizin siteniz için de aynı işi yaparım.</p>
     </header>
 
     <ul class="wk-list">
@@ -49,7 +49,7 @@ export const workBody = () => `<section class="s wk">
 
     <section class="wk-articles" aria-labelledby="wk-articles-title">
       <h2 id="wk-articles-title">Yayınlanmış <em>yazılarım</em></h2>
-      <p class="lead">Yapay zekâ güvenliği ve ajan sistemleri üzerine, başka platformlarda yayınlanmış yazılar. Türkçe değil İngilizce; orijinalleri kendi adreslerinde kalır.</p>
+      <p class="lead">Yapay zekâ güvenliği ve ajan sistemleri üzerine, başka platformlarda yayınlanmış yazılar. Yazılar İngilizce; orijinalleri kendi adreslerinde kalır.</p>
       <ul class="wk-article-list">
         ${articles.map(articleRow).join("\n        ")}
       </ul>

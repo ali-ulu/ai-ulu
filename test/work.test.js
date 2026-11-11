@@ -59,3 +59,16 @@ test("external links carry rel=noopener and open safely", async () => {
     assert.ok(a.includes('rel="noopener"'), `external link needs rel=noopener: ${a}`);
   }
 });
+
+// The intro presents finished work. It must not apologise for missing client
+// references, and it must never mention why client work is held back: naming the
+// permission question on the page would tell visitors we have work we hide.
+test("the works intro presents the products without apologising", async () => {
+  const html = await read("dist/calismalar/index.html");
+  const intro = html.split('class="wk-intro"')[1].split("</header>")[0];
+  assert.match(intro, /Kendi yazdığım/, "the intro keeps its headline");
+  assert.doesNotMatch(intro, /referans/i, "no reference framing in the intro");
+  // \b so the common word "sizin" does not read as "izin".
+  assert.doesNotMatch(intro, /\bizin\b|\bpermission\b/i, "the permission question stays off the page");
+  assert.doesNotMatch(intro, /henüz yok|\byeni\b/i, "the intro does not lead with what is missing");
+});

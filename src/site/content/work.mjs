@@ -1,9 +1,11 @@
 // Products the owner built and writes published on other platforms.
 //
-// Why this lives on the site at all: the agency is new, so there are no client
-// references yet. Shipping software of this size is the strongest honest answer
-// to "can you actually build it" — and it is the experience signal that E-E-A-T
-// asks for. Everything here links out; nothing is copied in.
+// Why this lives on the site at all: client work is only shown with the client's
+// permission, so the page leads with software the owner built and still stands
+// behind. Shipping products of this size is the strongest honest answer to "can
+// you actually build it" — the experience signal E-E-A-T asks for. Everything
+// here links out; nothing is copied in. Keep the intro confident: it presents
+// finished work, it does not apologise for what is missing.
 //
 // Rules for editing:
 // - Only products the owner actually built and still stands behind.
