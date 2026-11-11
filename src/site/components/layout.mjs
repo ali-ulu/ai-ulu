@@ -73,7 +73,10 @@ function header() {
     .map((n) => `<a href="${n.href}"${n.keep ? ' class="keep"' : ""}>${escapeHtml(n.label)}</a>`)
     .join("\n      ");
   return `<header class="site-header">
-  <a class="logo" href="/" aria-label="${site.name} ana sayfa">${site.name}</a>
+  <a class="logo" href="/" aria-label="${site.name} ana sayfa">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span class="logo-word">${escapeHtml(site.name)}</span>
+    </a>
   <div class="nav-end">
     <nav aria-label="Ana menü">
       ${links}
