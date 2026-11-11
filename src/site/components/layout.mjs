@@ -141,9 +141,13 @@ ${header()}
 ${breadcrumbNav(crumbs)}
 ${body}
 </main>
-<nav class="callbar" aria-label="Hızlı iletişim">
-<a class="callbar-btn tel" href="tel:${site.phone}">Ara</a>
-<a class="callbar-btn wa" href="${waLink("Merhaba, web sitem için yazıyorum.")}" rel="noopener">WhatsApp</a>
+<nav class="dock" aria-label="Hızlı iletişim">
+<a class="dock-btn wa" href="${waLink("Merhaba, web sitem için yazıyorum.")}" rel="noopener" aria-label="WhatsApp'tan yazın" title="WhatsApp">
+<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.28 4.86L2 22l5.32-1.4a9.9 9.9 0 0 0 4.72 1.2c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm0 18.1c-1.5 0-2.9-.4-4.14-1.12l-.3-.18-3.16.83.85-3.08-.2-.32a8.1 8.1 0 0 1-1.25-4.31c0-4.5 3.66-8.16 8.16-8.16s8.16 3.66 8.16 8.16-3.66 8.16-8.16 8.16zm4.5-6.1c-.25-.13-1.46-.72-1.68-.8-.23-.08-.4-.13-.56.13-.16.25-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.7-.14-.26-.02-.4.11-.52.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43l-.48-.01c-.16 0-.42.06-.65.31-.22.25-.85.83-.85 2.02s.87 2.35 1 2.51c.12.17 1.72 2.63 4.17 3.68.58.25 1.04.4 1.4.51.58.19 1.11.16 1.53.1.47-.07 1.46-.6 1.66-1.17.2-.58.2-1.07.14-1.17-.06-.11-.23-.17-.48-.29z"/></svg>
+</a>
+<a class="dock-btn tel" href="tel:${site.phone}" aria-label="Telefonla arayın: ${site.phoneDisplay}" title="Telefon">
+<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8c1.2 2.4 3.2 4.4 5.6 5.6l1.9-1.9c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V19c0 .6-.4 1-1 1C10.6 20 4 13.4 4 5c0-.6.4-1 1-1h3.1c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1l-1.9 1.3z"/></svg>
+</a>
 </nav>
 ${footer(footerNote)}
 <script src="/app.js" defer></script>

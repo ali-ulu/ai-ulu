@@ -40,8 +40,8 @@ export const workBody = () => `<section class="s wk">
     <header class="wk-intro">
       <p class="eyebrow">Çalışmalar</p>
       <h1>Kendi yazdığım <em>yazılımlar</em></h1>
-      <p class="lead">Yayında olan, kaynak kodu açık, baştan sona kendi yazdığım ürünler. Bir ürünü kurup yayında tutabiliyorsam, sizin siteniz için de aynı işi yaparım.</p>
-    </header>
+        <p class="lead">Hepsi yayında, kaynak kodu açık ve baştan sona kendi yazdığım ürünler. Sizin sitenizi de aynı özenle kurarım.</p>
+      </header>
 
     <ul class="wk-list">
       ${products.map(productCard).join("\n      ")}

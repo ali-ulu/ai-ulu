@@ -18,7 +18,7 @@ test("the design tokens match the Forma palette and type", async () => {
   assert.match(root, /color-scheme:light/, "light is the default finish");
   assert.match(root, /--head:"Geist"/, "Geist heads the type stack");
   assert.match(root, /--serif:"Instrument Serif"/, "the italic serif accent");
-  assert.match(root, /--muted:color-mix\(in srgb,var\(--fg\) 58%,var\(--bg\)\)/, "muted derives from ink and ground");
+  assert.match(root, /--muted:color-mix\(in srgb,var\(--fg\) 66%,var\(--bg\)\)/, "muted derives from ink and ground");
   assert.match(root, /--ease:cubic-bezier\(\.2,\.7,\.2,1\)/, "the shared easing curve");
   assert.match(css, /:root\[data-theme="dark"\]\{[^}]*--bg:#111110/, "a dark finish is available on request");
 });

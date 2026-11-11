@@ -5,9 +5,9 @@
   html { background: #fff; color: #111; font-size: 12pt; }
   body { background: #fff; overflow: visible; }
 
-  /* Chrome: the floating header, the call bar and the profile keys are
+  /* Chrome: the floating header, the contact dock and the profile keys are
      screen-only; the liquid hero canvas never prints. */
-  #liquid, .hero-stage, #gl, .tag, .prog, .hint, .callbar, .site-header, .footer-social, .nf-links { display: none !important; }
+  #liquid, .hero-stage, #gl, .tag, .prog, .hint, .dock, .site-header, .footer-social, .nf-links { display: none !important; }
   .hero { min-height: auto !important; padding-block: 2rem !important; }
   a { color: #111; text-decoration: underline; }
   /* Show where a link points, since the reader cannot click it. */

@@ -428,10 +428,10 @@
   gap: 0.8rem 1.2rem;
   margin-top: 1.8rem;
   font-size: 0.9rem;
-  color: var(--dim);
+  color: var(--text-3);
 }
-.pm-aside a {
-  color: var(--soft);
+.pm-aside a:not(.btn) {
+  color: var(--accent);
 }
 @container pm (max-width: 780px) {
   .pm-body {

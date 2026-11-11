@@ -4,12 +4,14 @@
 // permission, so the page leads with software the owner built and still stands
 // behind. Shipping products of this size is the strongest honest answer to "can
 // you actually build it" — the experience signal E-E-A-T asks for. Everything
-// here links out; nothing is copied in. Keep the intro confident: it presents
-// finished work, it does not apologise for what is missing.
+// here links out; nothing is copied in. Keep the intro confident and plain: it
+// presents finished work, it does not apologise for what is missing.
 //
 // Rules for editing:
 // - Only products the owner actually built and still stands behind.
 // - `href` must resolve. `repo` is the public source when there is one.
+// - Describe each product in plain Turkish: no unexplained jargon, no invented
+//   capability. Follow the product's own site and README for the facts.
 // - Articles stay on their platform. Republishing them here would compete with
 //   the original and split its ranking; we link instead.
 
@@ -17,11 +19,11 @@ export const products = [
   {
     slug: "huqan",
     name: "HUQAN",
-    tagline: "AI ajanlarının riskli komutunu çalışmadan önce durdurur",
+    tagline: "Ajan bir işe girişmeden önce karar veren yönetim katmanı",
     summary:
-      "Bir ajanın force-push, terraform apply ya da kubectl delete gibi geri dönüşü zor komutları çalıştırmasını engeller; git status gibi zararsız olanları geçirir. Her karar, kararı veren kapı tarafından üretilen ve yerelde doğrulanabilen bir Trust Receipt olarak kaydedilir.",
+      "Yapay zekâ ajanları iş yaparken kendi başına karar verir. HUQAN araya girer: force-push, terraform apply ya da kubectl delete gibi geri dönüşü zor bir komutu çalıştırmadan durdurur ve onay ister; git status gibi zararsız olanları geçirir. Her karar, gerekçesiyle birlikte yerelde kaydedilir.",
     detail:
-      "Tamamen kendi makinenizde çalışır: model yok, bulut yok, API anahtarı yok. Onay yetkisi bir işletim sistemi servisinde tutulduğu için ajan kendi işlemini kendisi onaylayamaz.",
+      "Tamamen kendi makinenizde çalışır: model yok, bulut yok, API anahtarı yok. Onay yetkisi bir işletim sistemi servisinde tutulduğu için ajan kendi işlemini kendisi onaylayamaz. Kaydı, kararı veren taraf yazar; ajanın kendi anlatımı değildir.",
     stack: ["Node.js", "MCP", "Apache-2.0"],
     links: [
       { label: "huqan.com", href: "https://huqan.com", kind: "live" },

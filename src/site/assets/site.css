@@ -6,10 +6,18 @@
 :root{
   color-scheme:light;
   --bg:#ebe9e5; --fg:#151514;
-  --muted:color-mix(in srgb,var(--fg) 58%,var(--bg));
+  /* One semantic set. --muted/--text-* are text values; --surface* are fills.
+     --accent is the accent as text; --amber stays decorative (fills, rules,
+     large marks) because it does not reach 4.5 as small text on the paper.
+     Values are pinned so each passes AA (4.5) on the ground AND on --surface. */
+  --muted:color-mix(in srgb,var(--fg) 66%,var(--bg));
   --line:color-mix(in srgb,var(--fg) 14%,transparent);
   --soft:color-mix(in srgb,var(--fg) 5%,var(--bg));
-  --amber:#b4552f; --ok:#3f7d4e; --danger:#b3372c;
+  --surface:color-mix(in srgb,var(--fg) 4%,var(--bg));
+  --surface-2:color-mix(in srgb,var(--fg) 8%,var(--bg));
+  --text-2:color-mix(in srgb,var(--fg) 78%,var(--bg));
+  --text-3:color-mix(in srgb,var(--fg) 66%,var(--bg));
+  --amber:#b4552f; --accent:#9a3f1d; --ok:#3f7d4e; --danger:#b3372c;
   --head:"Geist","Helvetica Neue",Arial,sans-serif;
   --sans:var(--head);
   --body:var(--head);
@@ -24,6 +32,9 @@
 :root[data-theme="dark"]{
   color-scheme:dark;
   --bg:#111110; --fg:#f1efea;
+  /* The accent must flip with the ground: the light-theme red is unreadable on
+     near-black, so dark theme uses the warm amber as its accent text. */
+  --accent:#e8b06a;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:var(--bg);color:var(--fg);-webkit-text-size-adjust:100%}
@@ -176,12 +187,16 @@ section.s{padding:clamp(72px,11vw,160px) var(--gut);border-top:1px solid var(--l
 .social-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.3),inset 0 -2px 3px rgba(0,0,0,.4),0 13px 24px rgba(0,0,0,.4)}
 .social-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 2px rgba(0,0,0,.4),0 4px 10px rgba(0,0,0,.3)}
 
-/* sticky call/WhatsApp bar on phones */
-.callbar{display:none}
-.callbar-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.95rem 1rem;text-decoration:none;font-weight:600;font-size:.95rem;color:var(--bg)}
-.callbar-btn.tel{background:var(--fg)}
-.callbar-btn.wa{background:var(--amber);color:#fff}
-.callbar-btn:active{opacity:.85}
+/* Contact dock: a fixed pair of round buttons at the bottom-right — WhatsApp and
+   a direct call — so a visitor can reach the owner from anywhere without hunting
+   for the form. Inline SVG only (CSP 'self'); 44px+ targets for touch. */
+.dock{position:fixed;right:clamp(12px,2.4vw,22px);bottom:calc(clamp(12px,2.4vw,22px) + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;gap:.7rem}
+.dock-btn{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;color:#fff;text-decoration:none;box-shadow:0 10px 26px -8px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.22);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.dock-btn:hover{transform:translateY(-3px);box-shadow:0 16px 34px -10px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.25)}
+.dock-btn:active{transform:translateY(0)}
+.dock-btn svg{display:block}
+.dock-btn.wa{background:#25d366}
+.dock-btn.tel{background:var(--fg);color:var(--bg)}
 
 /* shared form bits (the postcard itself lives in postmark-form.css) */
 .field--hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
@@ -206,8 +221,8 @@ section.s{padding:clamp(72px,11vw,160px) var(--gut);border-top:1px solid var(--l
   .ch h2{font-size:clamp(1.7rem,7vw,2.6rem)}
   .footer-grid{grid-template-columns:1fr 1fr}
   .footer-grid>:first-child{grid-column:1/-1}
-  .callbar{display:flex;gap:.6rem;position:fixed;left:.7rem;right:.7rem;bottom:calc(.7rem + env(safe-area-inset-bottom,0px));z-index:30}
-  .callbar-btn{border-radius:999px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
-  .site-footer{padding-bottom:calc(5.4rem + env(safe-area-inset-bottom,0px))}
+  .dock{right:.9rem;bottom:calc(.9rem + env(safe-area-inset-bottom,0px));gap:.6rem}
+  .dock-btn{width:50px;height:50px}
+  .site-footer{padding-bottom:calc(1.4rem + env(safe-area-inset-bottom,0px))}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation-duration:0s!important}}
