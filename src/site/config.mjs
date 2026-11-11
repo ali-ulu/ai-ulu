@@ -1,7 +1,16 @@
+import { normalizeBase } from "./lib/base.mjs";
+
+// Where the built site is served. The root deployment (Cloudflare) keeps "/";
+// GitHub Pages serves a project site under /ai-ulu/ and sets BASE_PATH.
+export const base = normalizeBase(process.env.BASE_PATH);
+
+// Public origin. The canonical/og/sitemap URLs follow the deployment so the
+// GitHub Pages copy points at itself, never at the expired domain.
 export const site = {
   name: "ai-ulu",
   owner: "Ali Ulu",
-  url: "https://ai-ulu.com",
+  url: process.env.SITE_URL || "https://ai-ulu.com",
+  base,
   email: "aliulu@ai-ulu.com",
   lang: "tr",
   title: "ai-ulu — Müşteri getiren web siteleri",

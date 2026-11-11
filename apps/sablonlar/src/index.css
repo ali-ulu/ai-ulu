@@ -3,33 +3,33 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* shadcn tokens mapped to the ai-ulu palette (ink / bone / amber) */
+/* shadcn tokens mapped to the Forma palette (paper / ink / clay) */
 :root {
   --radius: 0.75rem;
-  --background: #08090b;
-  --foreground: #ece7de;
-  --card: #15171b;
-  --card-foreground: #ece7de;
-  --popover: #15171b;
-  --popover-foreground: #ece7de;
-  --primary: #ece7de;
-  --primary-foreground: #08090b;
-  --secondary: #1b1d22;
-  --secondary-foreground: #ece7de;
-  --muted: #1b1d22;
-  --muted-foreground: #9a9ea6;
-  --accent: #1b1d22;
-  --accent-foreground: #ece7de;
-  --destructive: #e5484d;
-  --border: rgb(236 231 222 / 0.12);
-  --input: rgb(236 231 222 / 0.16);
-  --ring: #e0a458;
-  --chart-2: #e0a458;
+  --background: #ebe9e5;
+  --foreground: #151514;
+  --card: #f3f1ed;
+  --card-foreground: #151514;
+  --popover: #f3f1ed;
+  --popover-foreground: #151514;
+  --primary: #151514;
+  --primary-foreground: #ebe9e5;
+  --secondary: #e3e0da;
+  --secondary-foreground: #151514;
+  --muted: #e3e0da;
+  --muted-foreground: #6b6a66;
+  --accent: #e3e0da;
+  --accent-foreground: #151514;
+  --destructive: #b3372c;
+  --border: rgb(21 21 20 / 0.14);
+  --input: rgb(21 21 20 / 0.18);
+  --ring: #b4552f;
+  --chart-2: #b4552f;
 }
 
 @theme inline {
-  --font-sans: "Hanken Grotesk", system-ui, sans-serif;
-  --font-serif: "Bodoni Moda", Didot, Georgia, serif;
+  --font-sans: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Instrument Serif", "Times New Roman", serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,12 +59,7 @@
   body { @apply bg-background text-foreground font-sans antialiased; }
 }
 
-/* Fixed vortex field behind the gallery, shared with the marketing site.
-   The dark base lives on <html> so the transparent canvas shows the particles. */
+/* Forma gallery: the warm paper ground carries the rail, so no vortex field.
+   The frames are the only dark objects on the page, exactly like the template. */
 html { background: var(--background); }
-#vortex { position: fixed; inset: 0; width: 100%; height: 100%; display: block; z-index: -1; pointer-events: none; }
-.vignette { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(130% 100% at 50% 38%, transparent 34%, rgb(4 5 7 / 0.5) 72%, rgb(4 5 7 / 0.86) 100%); }
-/* Let the vortex show through: page and gallery surfaces become translucent. */
 body, #root, main, [data-slot="picture-rail-gallery"] { background-color: transparent; }
-/* Keep text legible over the moving field. */
-main { text-shadow: 0 1px 18px rgb(6 7 9 / 0.75); }

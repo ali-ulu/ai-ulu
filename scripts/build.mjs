@@ -1,9 +1,10 @@
-import { mkdir, writeFile, rm, cp, access, readFile } from "node:fs/promises";
+import { mkdir, writeFile, rm, cp, access, readFile, readdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { transform } from "esbuild";
 import { pages, renderPage, notFoundPage } from "../src/site/pages.mjs";
 import { site } from "../src/site/config.mjs";
+import { applyBase, BASE_FILE_RE } from "../src/site/lib/base.mjs";
 import { robotsTxt } from "../src/site/robots.mjs";
 import { faq } from "../src/site/content/site-content.mjs";
 import { byDateDesc } from "../src/site/components/blog.mjs";
@@ -24,7 +25,7 @@ async function write(rel, content) {
 // (three.js, the Vite bundle) are left alone, as is fonts.css, whose @font-face
 // rules are tiny and read better unminified.
 const MINIFY_CSS = ["site.css", "blog.css", "faq-drawer.css", "postmark-form.css", "print.css", "work.css"];
-const MINIFY_JS = ["app.js", "vortex.js", "ora.js"];
+const MINIFY_JS = ["app.js", "liquid.js"];
 
 async function minify(rel, loader) {
   const target = join(dist, rel);
@@ -64,8 +65,8 @@ async function build() {
         start_url: "/",
         scope: "/",
         display: "standalone",
-        background_color: "#08090b",
-        theme_color: "#08090b",
+        background_color: "#ebe9e5",
+        theme_color: "#ebe9e5",
         icons: [
           { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
           { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
@@ -150,9 +151,6 @@ ${faq.items.map((f) => `- ${f.q} ${f.a}`).join("\n")}
 /fonts/*
 ${immutable}
 
-/vendor/*
-${immutable}
-
 /sablonlar/assets/*
 ${immutable}
 
@@ -177,10 +175,7 @@ ${revalidate}
 /app.js
 ${revalidate}
 
-/vortex.js
-${revalidate}
-
-/ora.js
+/liquid.js
 ${revalidate}
 
 /img/*
@@ -214,7 +209,32 @@ ${week}
   console.log(`✓ build: ${pages.length} sayfa + örnek tasarımlar + assets → dist/`);
 }
 
-build().catch((err) => {
-  console.error("build failed:", err);
-  process.exit(1);
-});
+// Rewrite root-absolute references to carry the base path. Runs last, after the
+// minifiers, so it sees the final bytes. base "/" leaves the output untouched.
+async function rewriteBase() {
+  if (site.base === "/") return;
+  let touched = 0;
+  async function* walk(dir) {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) yield* walk(full);
+      else if (BASE_FILE_RE.test(entry.name)) yield full;
+    }
+  }
+  for await (const file of walk(dist)) {
+    const before = await readFile(file, "utf8");
+    const after = applyBase(before, site.base);
+    if (after !== before) {
+      await writeFile(file, after, "utf8");
+      touched++;
+    }
+  }
+  console.log(`✓ base "${site.base}": ${touched} dosya yeniden yazıldı`);
+}
+
+build()
+  .then(rewriteBase)
+  .catch((err) => {
+    console.error("build failed:", err);
+    process.exit(1);
+  });

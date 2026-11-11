@@ -1,5 +1,5 @@
 import { page } from "./components/layout.mjs";
-import { homeBody, preloader, noJsStyles } from "./components/home.mjs";
+import { homeBody } from "./components/home.mjs";
 import { blogIndexBody, byDateDesc, postBody } from "./components/blog.mjs";
 import { workBody, workLd } from "./components/work.mjs";
 import { site } from "./config.mjs";
@@ -202,9 +202,7 @@ export const pages = [
     path: "/",
     file: "index.html",
     jsonLd: [webSiteLd(), organizationLd(), faqLd()],
-    before: preloader,
-    noscript: noJsStyles,
-    scripts: ["/ora.js"],
+    scripts: ["/liquid.js"],
     styles: ["/faq-drawer.css", "/postmark-form.css", "/blog.css"],
     footerNote: "Ekrandaki klinik sitesi örnek tasarımdır",
     body: homeBody,

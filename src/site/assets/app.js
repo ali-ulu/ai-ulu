@@ -7,9 +7,36 @@
   addEventListener("scroll", onScroll, { passive: true });
 })();
 
-// Page-view beacon: one anonymous request per page, no cookie and no stored
-// identifier. The worker records day, path, referrer host and country.
+// Theme toggle: flip the ground between paper and ink and remember the choice.
+// The inline script in <head> applies it before first paint.
 (function () {
+  const btn = document.querySelector(".theme-toggle");
+  if (!btn) return;
+  const root = document.documentElement;
+  const isDark = () => root.dataset.theme === "dark";
+  function sync() {
+    const dark = isDark();
+    btn.setAttribute("aria-pressed", String(dark));
+    btn.setAttribute("aria-label", dark ? "Açık temaya geç" : "Koyu temaya geç");
+  }
+  sync();
+  btn.addEventListener("click", () => {
+    root.dataset.theme = isDark() ? "light" : "dark";
+    try {
+      localStorage.setItem("aiulu-theme", root.dataset.theme);
+    } catch {
+      /* private mode: the toggle still works for this page */
+    }
+    sync();
+  });
+})();
+
+// Page-view beacon: one anonymous request per page, no cookie and no stored
+// identifier. The worker records day, path, referrer host and country. Skipped
+// on a static host (no /api/hit there, so a request would only 404).
+const HAS_API = document.documentElement.dataset.api !== "off";
+(function () {
+  if (!HAS_API) return;
   try {
     const body = JSON.stringify({ path: location.pathname });
     const send = () =>
@@ -28,7 +55,7 @@
 (function () {
   let sent = false;
   function report(detail) {
-    if (sent) return;
+    if (sent || !HAS_API) return;
     sent = true;
     try {
       fetch("/api/error", {
@@ -102,6 +129,25 @@
     status.textContent = message;
   }
 
+  // The GitHub Pages build has no /api/lead, so a submit that cannot reach the
+  // worker still reaches the owner: hand the message to WhatsApp, prefilled.
+  function whatsappHref(data) {
+    const lines = [
+      "Merhaba, web sitem için yazıyorum.",
+      data.msg ? `\n${data.msg}` : "",
+      `\nAd: ${data.name}`,
+      `İletişim: ${data.reach}`,
+    ];
+    const num = form.dataset.wa || "";
+    return `https://wa.me/${num}?text=${encodeURIComponent(lines.join("\n"))}`;
+  }
+  function handOffToWhatsApp(data) {
+    const url = whatsappHref(data);
+    if (url) window.open(url, "_blank", "noopener");
+  }
+  // No worker (static host): skip the doomed request and go straight to WhatsApp.
+  const hasApi = form.dataset.api !== "off";
+
   function sendAway() {
     if (!pm) {
       form.reset();
@@ -132,6 +178,14 @@
     submit.disabled = true;
     setStatus("", "");
     status.removeAttribute("data-state");
+
+    // Static host: no API to post to, so open WhatsApp with the message filled in.
+    if (!hasApi) {
+      handOffToWhatsApp(data);
+      submit.disabled = false;
+      sendAway();
+      return;
+    }
 
     try {
       const res = await fetch("/api/lead", {

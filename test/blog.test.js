@@ -113,7 +113,7 @@ test("the blog is reachable from the nav, the footer and the sitemap", async () 
   assert.match(html, /<a href="\/blog\/" class="keep">Blog<\/a>/, "nav lists Blog");
   assert.match(html, /<nav aria-label="Alt menü">.*href="\/blog\/"/s, "footer lists Blog");
   const sitemap = await read("dist/sitemap.xml");
-  assert.ok(sitemap.includes(`${"https://ai-ulu.com"}/blog/`), "sitemap has the index");
+  assert.ok(sitemap.includes(`${site.url}/blog/`), "sitemap has the index");
   for (const p of posts) {
     assert.ok(sitemap.includes(`/blog/${p.slug}/`), `sitemap has ${p.slug}`);
   }

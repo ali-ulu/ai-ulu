@@ -101,3 +101,37 @@ jobs:
       - name: Ping IndexNow
         if: steps.cf.outputs.present == 'true'
         run: npm run ping
+
+  pages:
+    needs: build-and-test
+    # Publish the same dist/ to GitHub Pages from main. The domain is expired, so
+    # this is the address customers get: https://ali-ulu.github.io/ai-ulu/.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Build for the project sub-path
+        # BASE_PATH makes every root-absolute URL carry /ai-ulu/; SITE_URL makes the
+        # canonical, og:url and sitemap point at the Pages origin, not the domain.
+        run: npm run build
+        env:
+          BASE_PATH: /ai-ulu/
+          SITE_URL: https://ali-ulu.github.io/ai-ulu
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: dist
+      - id: deploy
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

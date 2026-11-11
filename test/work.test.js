@@ -5,6 +5,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { products, articles } from "../src/site/content/work.mjs";
 import { pages, renderPage } from "../src/site/pages.mjs";
+import { site } from "../src/site/config.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (rel) => readFile(join(root, rel), "utf8");
@@ -13,7 +14,7 @@ test("the calismalar page is built and registered", async () => {
   const page = pages.find((p) => p.path === "/calismalar/");
   assert.ok(page, "/calismalar/ must be a registered page");
   const html = await read("dist/calismalar/index.html");
-  assert.ok(html.includes('rel="canonical" href="https://ai-ulu.com/calismalar/"'), "canonical must point at the page");
+  assert.ok(html.includes(`rel="canonical" href="${site.url}/calismalar/"`), "canonical must point at the page");
 });
 
 test("every product is linked and named in the built page", async () => {

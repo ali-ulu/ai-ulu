@@ -24,17 +24,23 @@ test("IndexNow key file matches the configured key", async () => {
   assert.match(site.indexNowKey, /^[a-f0-9]{32}$/, "IndexNow key must be 32 hex chars");
 });
 
-test("every page renders the liquid-glass navbar pill", async () => {
+test("every page renders one header with the brand and nav", async () => {
   for (const rel of ["dist/index.html", "dist/gizlilik/index.html"]) {
     const html = await read(rel);
-    assert.ok(html.includes('class="nav-glass"'), `${rel} should contain the glass pill`);
-    assert.equal((html.match(/class="nav-glass"/g) ?? []).length, 1, `${rel} should have exactly one navbar`);
+    assert.match(html, /<header class="site-header">/, `${rel} should contain the header`);
+    assert.equal((html.match(/class="site-header"/g) ?? []).length, 1, `${rel} should have exactly one header`);
+    assert.match(html, /<a class="logo" href="\/"/, `${rel} should link the brand home`);
+    assert.match(html, /class="theme-toggle"/, `${rel} should offer the theme toggle`);
   }
 });
 
-test("site.css defines the glass navbar with a no-backdrop-filter fallback", async () => {
+test("the fixed bar becomes glass once the page is scrolled", async () => {
   const css = await read("src/site/assets/site.css");
-  assert.match(css, /\.nav-glass\{[^}]*backdrop-filter:blur\(/, "pill needs a backdrop blur");
-  assert.match(css, /\.nav-glass\{[^}]*border-radius:999px/, "pill needs a full radius");
+  assert.match(css, /\.site-header\{[^}]*position:fixed/, "the bar is fixed");
+  assert.match(css, /\.site-header\.is-stuck\{[^}]*backdrop-filter:blur\(/, "the stuck bar frosts what is behind it");
+  assert.match(css, /\.site-header\.is-stuck\{[^}]*saturate\(/, "and saturates the glass");
   assert.match(css, /@supports not \([^)]*backdrop-filter/, "needs a fallback when backdrop-filter is unsupported");
+  // The toggle is driven by app.js adding/removing .is-stuck on scroll.
+  const js = await read("src/site/assets/app.js");
+  assert.match(js, /classList\.toggle\("is-stuck", window\.scrollY > 24\)/, "scroll drives the stuck state");
 });

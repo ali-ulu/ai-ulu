@@ -12,7 +12,7 @@ const read = (rel) => readFile(join(root, rel), "utf8");
 test("the contact form is a postcard, not a stacked field list", async () => {
   const html = await read("dist/index.html");
   assert.match(html, /<section class="s" id="iletisim">/, "the section keeps its anchor");
-  assert.match(html, /<form class="pm-card" id="lead-form" novalidate>/, "the form is the postcard");
+  assert.match(html, /<form class="pm-card" id="lead-form" novalidate[^>]*>/, "the form is the postcard");
   assert.match(html, /class="pm-body"/, "the card has a two-part body");
   assert.match(html, /class="pm-left"/, "the message half is present");
   assert.match(html, /class="pm-right"/, "the address half is present");
@@ -104,6 +104,19 @@ test("the gallery hands the chosen style to WhatsApp", async () => {
   assert.match(app, /const waLink = \(text: string\)/, "the gallery builds its own link");
   assert.match(app, /openItem \? `\$\{openItem\.title\} tarzında bir site istiyorum\.`/, "the message names the style");
   assert.doesNotMatch(app, /href="https:\/\/wa\.me\/905079581642"/, "the number is no longer hard-coded in the markup");
+});
+
+// GitHub Pages is static: there is no /api/lead. The form must still reach the
+// owner, so it hands the message to WhatsApp instead of failing silently.
+test("on a static host the form falls back to a prefilled WhatsApp message", async () => {
+  const html = await read("dist/index.html");
+  // The form carries the phone and whether an API exists for this deployment.
+  assert.match(html, /id="lead-form"[^>]*data-wa="905079581642"/, "the form knows the WhatsApp number");
+  assert.match(html, /id="lead-form"[^>]*data-api="(on|off)"/, "the form knows whether /api/lead exists");
+  const js = await read("src/site/assets/app.js");
+  assert.match(js, /form\.dataset\.api !== "off"/, "the client reads the api flag");
+  assert.match(js, /https:\/\/wa\.me\/\$\{num\}\?text=/, "it builds a prefilled wa.me link");
+  assert.match(js, /if \(!hasApi\) \{[\s\S]*?handOffToWhatsApp\(data\)/, "a static build opens WhatsApp instead of posting");
 });
 
 test("local SEO signals are emitted only when configured", async () => {
