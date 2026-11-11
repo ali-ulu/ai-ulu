@@ -1,0 +1,40 @@
+# ai-ulu
+
+> ai-ulu, işletmeler için müşteri getiren web siteleri kurar: özgün tasarım, Google'da ve yapay zekâ aramalarında görünürlük, WhatsApp'a bağlı iletişim.
+
+## Sayfalar
+- [Ana sayfa](https://ali-ulu.github.io/ai-ulu/): hizmetler, süreç, paketler, SSS ve iletişim formu
+- [Çalışmalar](https://ali-ulu.github.io/ai-ulu/calismalar/): ai-ulu'nun kendi geliştirdiği açık kaynak yazılımlar ve başka platformlarda yayınlanmış yazılar
+- [Örnek tasarımlar](https://ali-ulu.github.io/ai-ulu/sablonlar/): sektöre göre site tarzı örnekleri
+- [Blog](https://ali-ulu.github.io/ai-ulu/blog/): web sitesi fiyatı, arama görünürlüğü ve müşteri kazanma üzerine yazılar
+- [Gizlilik ve KVKK](https://ali-ulu.github.io/ai-ulu/gizlilik/)
+- [Kullanım şartları](https://ali-ulu.github.io/ai-ulu/kullanim-sartlari/): hizmet kapsamı, ödeme, fikri mülkiyet ve sorumluluk
+
+## Blog yazıları
+- [Web sitesi fiyatları 2026: aralıklar, kim ne istiyor, siz ne ödemelisiniz?](https://ali-ulu.github.io/ai-ulu/blog/web-sitesi-fiyatlari-2026/): 2026 ajans fiyat rehberlerinden gerçek aralıklar: tek sayfa, kurumsal, e-ticaret ve özel yazılım. Aynı işe neden 8.000 de 180.000 de deniyor?
+- [Yapay zekâ ile web sitesi yapmak: ne zaman yeter, ne zaman yetmez?](https://ali-ulu.github.io/ai-ulu/blog/yapay-zeka-ile-web-sitesi-yapmak/): ChatGPT, Gemini ya da hazır araçla ücretsiz site kurmak mümkün. Hangi iş için yeter, hangisinde müşteri kaybettirir? Tarafsız bir karşılaştırma.
+- [Web sitesi fiyatını ne belirler? Teklif almadan önce sormanız gereken 7 soru](https://ali-ulu.github.io/ai-ulu/blog/web-sitesi-fiyatini-ne-belirler/): Aynı site için neden biri 10 bin, diğeri 100 bin lira diyor? Fiyatı belirleyen 7 kalem ve teklifleri karşılaştırmanın doğru yolu.
+- [Instagram'ım var, web sitesine gerçekten ihtiyacım var mı?](https://ali-ulu.github.io/ai-ulu/blog/instagram-varken-web-sitesi-gerekli-mi/): Instagram hesabı işinizi görüyorsa siteye gerek yok mu? Hangi işletme için yeterli, hangisi için müşteri kaybı — dürüst bir karşılaştırma.
+- [İşletmeniz ChatGPT'de çıkıyor mu? Yapay zekâ aramalarında görünmek için 6 adım](https://ali-ulu.github.io/ai-ulu/blog/yapay-zeka-aramalarinda-gorunmek/): Müşterileriniz artık ChatGPT ve Gemini'ye de soruyor. Sitenizin yapay zekâ yanıtlarında yer alabilmesi için yapılması gereken 6 teknik adım.
+- [Siteniz var ama kimse aramıyor: 5 yaygın neden](https://ali-ulu.github.io/ai-ulu/blog/web-sitem-var-musteri-gelmiyor/): Siteye ziyaretçi geliyor ama telefon çalmıyor mu? Ziyaretçiyi müşteriye çevirmeyen sitelerde en sık görülen 5 hata ve düzeltmeleri.
+- [Web sitesi yaptırırken sözleşmede olması gereken 6 madde](https://ali-ulu.github.io/ai-ulu/blog/web-sitesi-sozlesmesinde-olmasi-gerekenler/): Alan adı kimin adına? Kodlar sizin mi? Site yaptırırken sonradan başınızı ağrıtmaması için yazılı olması gereken 6 madde.
+
+## Hizmetler
+- Tanıtım sitesi: markaya özel tasarım, hızlı açılış, Google ve yapay zekâ aramalarına hazır yapı
+- Özel web uygulaması: panel, portal, randevu, sipariş, otomasyon
+- Site + uygulama: tek tasarım dili, tek ekip
+- Fiyat listesi yok; ücretsiz görüşmeden sonra 24 saat içinde yazılı teklif
+
+## İletişim
+- E-posta: aliulu@ai-ulu.com
+- Telefon / WhatsApp: +90 507 958 16 42
+
+## SSS
+- Bir site ne kadar sürede hazır olur? Odaklı bir tanıtım sitesi ilk görüşmeden yayına genelde iki ile dört hafta sürer. Büyük siteler ve uygulamalar daha uzun sürer; takvim teklifte yazılıdır.
+- Fiyatı ne belirler? Sayfa sayısı, içerik hazırlığı ve ek özellikler (form, randevu, çoklu dil, uygulama). Ücretsiz görüşmeden sonra 24 saat içinde yazılı teklif gönderilir.
+- Site ve kodlar bana mı ait olur? Evet. Tasarım, kod ve içerik sizindir; yayında her şey size teslim edilir.
+- Yayından sonra da çalışıyor musunuz? Evet. Hataları düzeltir, değişiklikleri yapar, isterseniz siteyi sürekli bakımda tutarız.
+- Site yapay zekâ aramalarında nasıl görünür? Her site, yapay zekâ asistanlarının okuduğu yapıyla gelir: temiz HTML, yapılandırılmış veri, llms.txt özeti, site haritası ve yapay zekâ tarayıcılarına açık erişim. Belirli bir sıralama garanti edilemez.
+- Mevcut sitemi yenileyebilir misiniz? Evet. İşe yarayanı korur; yapıyı, hızı ve içeriği müşteri getirecek şekilde yeniden kurarız.
+- Siteme WhatsApp butonu ve form nasıl eklenir? Her sayfaya tek dokunuşla açılan WhatsApp bağlantısı ve size düşen bir iletişim formu kurarız. Ziyaretçi ayrı bir uygulama indirmez; yazar, mesaj doğrudan telefonunuza gelir.
+- Siteme online randevu sistemi ekleyebilir misiniz? Evet. Takviminize bağlı randevu, sipariş veya başvuru formu kurarız; talepler size düşer, isterseniz otomatik onay da eklenir. Bu, özel web uygulaması paketinin kapsamındadır.

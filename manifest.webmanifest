@@ -1,0 +1,31 @@
+{
+  "name": "ai-ulu — Müşteri getiren web siteleri",
+  "short_name": "ai-ulu",
+  "description": "ai-ulu, işletmeler için müşteri getiren web siteleri kurar: özgün tasarım, Google'da ve yapay zekâ aramalarında görünürlük, WhatsApp'a bağlı iletişim.",
+  "lang": "tr",
+  "start_url": "/ai-ulu/",
+  "scope": "/ai-ulu/",
+  "display": "standalone",
+  "background_color": "#ebe9e5",
+  "theme_color": "#ebe9e5",
+  "icons": [
+    {
+      "src": "/ai-ulu/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/ai-ulu/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/ai-ulu/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

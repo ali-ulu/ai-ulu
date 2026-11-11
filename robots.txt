@@ -1,0 +1,24 @@
+# ali-ulu.github.io
+User-agent: *
+Allow: /
+
+# AI crawlers are explicitly welcome: this site publishes llms.txt for them.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://ali-ulu.github.io/ai-ulu/sitemap.xml
