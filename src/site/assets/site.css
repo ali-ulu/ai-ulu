@@ -18,9 +18,10 @@
   --text-2:color-mix(in srgb,var(--fg) 78%,var(--bg));
   --text-3:color-mix(in srgb,var(--fg) 66%,var(--bg));
   --amber:#b4552f; --accent:#9a3f1d; --logo-mark:#9a742a; --ok:#3f7d4e; --danger:#b3372c;
-  /* Gold keys: the dock and the footer socials. Fixed in both themes — the glyph
-     is dark, so the gold face must stay light. --gold-edge is the extruded side. */
-  --gold-1:#f7e0a0; --gold-2:#e0b64a; --gold-3:#c79a2b; --gold-edge:#8a6410;
+  /* Glossy 3D spheres for the contact dock. Fixed in both themes: a lit highlight,
+     a mid tone, a deep shade, and a hard extruded edge (the drop-shadow colour). */
+  --wa-1:#38c96e; --wa-2:#17a34a; --wa-3:#0b6b30; --wa-edge:#074d22;
+  --gold-1:#ffeeb0; --gold-2:#e6b93f; --gold-3:#a97e18; --gold-edge:#6f4f0c;
   --head:"Geist","Helvetica Neue",Arial,sans-serif;
   --sans:var(--head);
   --body:var(--head);
@@ -192,14 +193,21 @@ section.s{padding:clamp(72px,11vw,160px) var(--gut);border-top:1px solid var(--l
 
 /* Contact dock: a fixed pair of round buttons at the bottom-right — WhatsApp and
    a direct call — so a visitor can reach the owner from anywhere without hunting
-   for the form. Gold 3D keys, matching the footer social buttons: a lit face, a
-   dark extruded edge, and a dark glyph that stays legible on the gold. Inline SVG
-   only (CSP 'self'); 54px targets for touch. */
-.dock{position:fixed;right:clamp(12px,2.4vw,22px);bottom:calc(clamp(12px,2.4vw,22px) + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;gap:.75rem}
-.dock-btn{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;color:#2a1e05;text-decoration:none;background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 58%,var(--gold-3));box-shadow:0 5px 0 var(--gold-edge),inset 0 1px 0 rgba(255,255,255,.75),inset 0 -3px 5px rgba(120,80,0,.45),0 10px 22px -6px rgba(0,0,0,.45);transition:transform .2s var(--ease),box-shadow .2s var(--ease),filter .2s var(--ease)}
-.dock-btn:hover{transform:translateY(-3px);filter:saturate(1.08) brightness(1.03);box-shadow:0 8px 0 var(--gold-edge),inset 0 1px 0 rgba(255,255,255,.8),inset 0 -3px 5px rgba(120,80,0,.45),0 16px 30px -8px rgba(0,0,0,.5)}
-.dock-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--gold-edge),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -2px 4px rgba(120,80,0,.5),0 4px 10px -4px rgba(0,0,0,.4)}
-.dock-btn svg{display:block}
+   for the form. Each is a glossy 3D sphere: WhatsApp green with a white glyph,
+   the call button gold with a dark retro handset. The shine is a ::before sweep;
+   the 3D edge is a hard drop shadow. Inline SVG only (CSP 'self'); 54px targets. */
+.dock{position:fixed;right:clamp(12px,2.4vw,22px);bottom:calc(clamp(12px,2.4vw,22px) + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;gap:.8rem}
+.dock-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;text-decoration:none;overflow:hidden;transition:transform .2s var(--ease),box-shadow .2s var(--ease),filter .2s var(--ease)}
+.dock-btn::before{content:"";position:absolute;left:12%;right:12%;top:7%;height:38%;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,0));pointer-events:none}
+.dock-btn svg{position:relative;display:block;filter:drop-shadow(0 1px 1px rgba(0,0,0,.28))}
+.dock-btn:hover{transform:translateY(-3px);filter:saturate(1.08) brightness(1.04)}
+.dock-btn:active{transform:translateY(3px);filter:saturate(1.02) brightness(.98)}
+.dock-btn.wa{background:radial-gradient(circle at 50% 26%,var(--wa-1),var(--wa-2) 46%,var(--wa-3) 100%);box-shadow:0 5px 0 var(--wa-edge),inset 0 2px 2px rgba(255,255,255,.5),inset 0 -4px 7px rgba(0,60,25,.5),0 10px 22px -6px rgba(0,0,0,.45)}
+.dock-btn.wa:hover{box-shadow:0 8px 0 var(--wa-edge),inset 0 2px 2px rgba(255,255,255,.55),inset 0 -4px 7px rgba(0,60,25,.5),0 16px 30px -8px rgba(0,0,0,.5)}
+.dock-btn.wa:active{box-shadow:0 1px 0 var(--wa-edge),inset 0 2px 2px rgba(255,255,255,.4),inset 0 -3px 6px rgba(0,60,25,.55),0 4px 10px -4px rgba(0,0,0,.4)}
+.dock-btn.tel{background:radial-gradient(circle at 50% 26%,var(--gold-1),var(--gold-2) 46%,var(--gold-3) 100%);box-shadow:0 5px 0 var(--gold-edge),inset 0 2px 2px rgba(255,255,255,.7),inset 0 -4px 7px rgba(110,72,0,.5),0 10px 22px -6px rgba(0,0,0,.45)}
+.dock-btn.tel:hover{box-shadow:0 8px 0 var(--gold-edge),inset 0 2px 2px rgba(255,255,255,.75),inset 0 -4px 7px rgba(110,72,0,.5),0 16px 30px -8px rgba(0,0,0,.5)}
+.dock-btn.tel:active{box-shadow:0 1px 0 var(--gold-edge),inset 0 2px 2px rgba(255,255,255,.55),inset 0 -3px 6px rgba(110,72,0,.55),0 4px 10px -4px rgba(0,0,0,.4)}
 
 /* shared form bits (the postcard itself lives in postmark-form.css) */
 .field--hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}

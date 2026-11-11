@@ -67,17 +67,23 @@ test("the header does not duplicate the dock's WhatsApp button", async () => {
   assert.doesNotMatch(html, /class="btn nav-cta"/, "the old header CTA is gone");
 });
 
-// The gold keys are a fixed pair: a lit face, a darker extruded edge, and a dark
-// glyph. They stay gold in both themes, so the glyph must stay dark.
-test("the contact dock is a gold 3D key with a dark glyph", async () => {
+// The dock keys are glossy 3D spheres, matching the client's references: WhatsApp
+// is green with a white glyph, the call button gold with a dark handset.
+test("the contact dock keys are glossy 3D spheres", async () => {
   const css = await read("src/site/assets/site.css");
   const root = css.match(/:root\{[^}]*\}/)[0];
-  for (const token of ["--gold-1:", "--gold-2:", "--gold-3:", "--gold-edge:"]) {
+  for (const token of ["--wa-1:", "--wa-2:", "--wa-3:", "--wa-edge:", "--gold-1:", "--gold-2:", "--gold-3:", "--gold-edge:"]) {
     assert.ok(root.includes(token), `site.css must define ${token}`);
   }
-  const btn = css.match(/\.dock-btn\{[^}]*\}/)[0];
-  assert.match(btn, /background:linear-gradient\(180deg,var\(--gold-1\)/, "the key face is a gold gradient");
-  assert.match(btn, /0 5px 0 var\(--gold-edge\)/, "the key has an extruded edge");
-  assert.match(btn, /color:#2a1e05/, "the glyph is dark on the gold");
-  assert.doesNotMatch(btn, /color:#fff/, "a white glyph would fail contrast on gold");
+  const base = css.match(/\.dock-btn\{[^}]*\}/)[0];
+  assert.match(base, /border-radius:50%/, "the keys are round");
+  const shine = css.match(/\.dock-btn::before\{[^}]*\}/)[0];
+  assert.match(shine, /rgba\(255,255,255,\.85\)/, "the shine is a white sweep");
+  const wa = css.match(/\.dock-btn\.wa\{[^}]*\}/)[0];
+  assert.match(wa, /radial-gradient\(circle at 50% 26%/, "the WhatsApp key is a glossy sphere");
+  assert.match(wa, /var\(--wa-2\)/, "it uses the WhatsApp green");
+  assert.match(wa, /0 5px 0 var\(--wa-edge\)/, "it has an extruded edge");
+  const tel = css.match(/\.dock-btn\.tel\{[^}]*\}/)[0];
+  assert.match(tel, /radial-gradient\(circle at 50% 26%/, "the call key is a glossy sphere");
+  assert.match(tel, /var\(--gold-2\)/, "it is gold");
 });
